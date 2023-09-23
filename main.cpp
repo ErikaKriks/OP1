@@ -29,19 +29,27 @@ struct Student
 void getInput(Student &student);
 
 int main(){
-    Student student;
+    int k; /**< Nunber of students in the class. */
+    cout << "Number of students:" << endl;
+    cin >> k;
+    
+    for (int i = 0; i < k; i ++){
+        
+        Student student;
 
-    getInput(student);
+        getInput(student);
 
-    // Print the student's information
-    cout << "Student Information:" << endl;
-    cout << "Name: " << student.name << " " << student.surname << endl;
-    cout << "Number of Marks: " << student.n << endl;
-    cout << "Exam Mark: " << student.egz << endl;
-    cout << "Individual Marks: ";
-    for (size_t i = 0; i < student.marks.size(); ++i) {
-    int mark = student.marks[i];
-    cout << mark << " ";
+        // Print the student's information
+        cout << "Student Information:" << endl;
+        cout << "Name: " << student.name << " " << student.surname << endl;
+        cout << "Number of Marks: " << student.n << endl;
+        cout << "Exam Mark: " << student.egz << endl;
+        cout << "Individual Marks: ";
+        for (size_t i = 0; i < student.marks.size(); ++i) {
+        int mark = student.marks[i];
+        cout << mark << " ";
+        }
+    
 }
 
 
