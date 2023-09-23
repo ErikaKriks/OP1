@@ -1,2 +1,2 @@
-# OP1
+# project1
 First exercise of Object Programming course, year 2.
