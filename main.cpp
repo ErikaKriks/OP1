@@ -27,6 +27,7 @@ struct Student
 
 // Function to get input for a Student structure
 void getInput(Student &student);
+float calculateFinalMark(const Student &student);
 
 int main(){
     int k; /**< Nunber of students in the class. */
@@ -39,6 +40,8 @@ int main(){
 
         getInput(student);
 
+        student.r = calculateFinalMark(student);
+
         // Print the student's information
         cout << "Student Information:" << endl;
         cout << "Name: " << student.name << " " << student.surname << endl;
@@ -49,6 +52,8 @@ int main(){
         int mark = student.marks[i];
         cout << mark << " ";
         }
+        cout << "\n";
+        cout << "Final Mark: " << student.r << endl;
     
 }
 
@@ -77,3 +82,20 @@ void getInput(Student &student) {
     cout << "Enter the exam mark the student has: " << endl;
     cin >> student.egz;
 }
+
+// Function to calculate the final mark for a student
+float calculateFinalMark(const Student &student) {
+    float sum = 0.0;
+    
+    // Calculate the sum of individual marks
+    for (int mark : student.marks) {
+        sum += mark;
+    }
+    
+    // Calculate the average of individual marks
+    float averageMarks = sum / student.n;
+    
+    // Calculate the final mark using the formula: 0.4 * average marks + 0.6 * exam
+    return 0.4 * averageMarks + 0.6 * student.egz;
+}
+
