@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdio.h>
 
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -11,6 +12,7 @@ using std::string;
 using std::vector;
 using std::printf;
 using std::sort;
+
 
 
 
@@ -23,17 +25,18 @@ struct Student
 {
     string name; /**< The first name of the student. */
     string surname; /**< The last name of the student. */
-    int n, egz; /**< The number of marks the student has. The mark of exam.*/
+    int egz; /**< The number of marks the student has. The mark of exam.*/
     vector<int> marks; /**< A vector storing the student's individual marks. */
     float r; /**< The average score of the student. */
 };
 
 
-// Function to get input for a Student structure
+// Functions
 void getInput(Student &student);
 float calculateFinalMarkAvg(const Student &student);
 float calculateFinalMarkMed(const Student &student);
 void printStudentTable(const vector<Student> &students);
+int generateRandomMark();
 
 
 
@@ -56,6 +59,7 @@ int main(){
         student.r = calculateFinalMarkAvg(student);
         
         students.push_back(student);
+
     }
 
     printStudentTable(students);
@@ -161,4 +165,5 @@ void printStudentTable(const vector<Student> &students)
     // Print the table footer
     printf("-----------------------------------------------------------------------------\n");
 }
+
 
