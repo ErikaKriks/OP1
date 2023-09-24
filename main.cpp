@@ -41,6 +41,7 @@ float calculateFinalMarkAvg(const Student &student);
 float calculateFinalMarkMed(const Student &student);
 void printStudentTable(const vector<Student> &students);
 void readStudentsFromFile(const string &filename, vector<Student> &students);
+bool compareStudents(const Student &student1, const Student &student2);
 
 
 
@@ -67,6 +68,9 @@ int main(){
         // Calculate Final Mark based on Median
         student.finalMarkMed = calculateFinalMarkMed(student);
     }
+
+    // Sort the students vector
+    sort(students.begin(), students.end(), compareStudents);
 
     // Displaying a table of results
     printStudentTable(students);
@@ -194,6 +198,18 @@ void readStudentsFromFile(const string &filename, vector<Student> &students)
     }
 
     inputFile.close();
+}
+
+// Comparison function for sorting students by name and surname
+bool compareStudents(const Student &student1, const Student &student2) {
+    // Compare by name
+    int nameComparison = student1.name.compare(student2.name);
+    if (nameComparison != 0) {
+        return nameComparison < 0;
+    }
+    
+    // If names are equal, compare by surname
+    return student1.surname.compare(student2.surname) < 0;
 }
 
 
