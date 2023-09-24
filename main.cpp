@@ -37,39 +37,14 @@ struct Student
 
 
 // Functions
-void getInput(Student &student);
 float calculateFinalMarkAvg(const Student &student);
 float calculateFinalMarkMed(const Student &student);
 void printStudentTable(const vector<Student> &students);
-int generateRandomMark();
 void readStudentsFromFile(const string &filename, vector<Student> &students);
 
 
 
 int main(){
-    
-    // int k;
-    // cout << "Number of students:" << endl;
-    // cin >> k;
-
-    // vector<Student> students;
-
-    // for (int i = 0; i < k; i++)
-    // {
-    //     Student student;
-    //     getInput(student);
-    //     // Calculate Final Mark based on Median
-    //     // student.finalMark = calculateFinalMarkMed(student);
-
-    //     // Calculate Final Mark based on Average
-    //     student.finalMark = calculateFinalMarkAvg(student);
-        
-    //     students.push_back(student);
-
-    // }
-
-    // printStudentTable(students);
-
     vector<Student> students;
     string filename = "kursiokai.txt";
 
@@ -81,7 +56,7 @@ int main(){
     auto end = std::chrono::high_resolution_clock::now(); // Stop measuring time
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     
-    // Print student data with line numbers
+    // Calculate Final Mark based on Average and Median of marks
     for (size_t i = 0; i < students.size(); ++i)
     {
         Student &student = students[i];
@@ -91,65 +66,17 @@ int main(){
 
         // Calculate Final Mark based on Median
         student.finalMarkMed = calculateFinalMarkMed(student);
-
-        cout << "Line " << i + 2 << ":" << endl; // Line number starts from 2 due to header
-        cout << "Name: " << student.name << endl;
-        cout << "Surname: " << student.surname << endl;
-        cout << "Marks: ";
-        for (int mark : student.marks)
-        {
-            cout << mark << " ";
-        }
-        cout << endl;
-        cout << "Exam Mark: " << student.examMark << endl;
-        cout << "Final Mark Avg: " << student.finalMarkAvg << endl;
-        cout << "Final Mark Med: " << student.finalMarkMed << endl;
-        cout << "---------------------------------------------" << endl;
     }
 
+    // Displaying a table of results
+    printStudentTable(students);
+
+    // For testing purposes
     cout << "Total number of lines read: " << students.size() + 1 << " (including header)" << endl;
     cout << "Time taken to read the file: " << duration.count() << " microseconds" << endl;
 
     return 0;
         
-}
-
-
-// Function to get input for a Student structure
-void getInput(Student &student) {
-    cout << "Enter the student's first name: " << endl;
-    cin >> student.name;
-    
-    cout << "Enter the student's last name: " << endl;
-    cin >> student.surname;
-
-    cout << "Enter the exam mark the student has: " << endl;
-    cin >> student.examMark;
-
-    int mark;
-    cout << "Enter homework marks (press Enter twice to finish): ";
-
-    while (true) {
-        if (cin >> mark) {
-            student.marks.push_back(mark); // Add the homework mark to the vector
-        } else {
-            // If the input is not numeric, clear the error state and ignore the input
-            cin.clear();
-            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        }
-
-        char nextChar = cin.peek(); // Peek at the next character in input
-
-        if (nextChar == '\n') {
-            char enter = cin.get(); // Consume the Enter character
-            nextChar = cin.peek(); // Peek again
-
-            if (nextChar == '\n') {
-                break; // Exit the loop if double Enter is detected
-            }
-        }
-    }
-
 }
 
 
@@ -201,13 +128,13 @@ float calculateFinalMarkMed(const Student &student) {
 void printStudentTable(const vector<Student> &students)
 {
     // Print the table header
-    printf("%-20s%-20s%-40s\n", "Name", "Surname", "Final Mark (Avg.)/ Final Mark (Med.)");
+    printf("%-20s%-20s%-20s%-20s\n", "Name", "Surname", "Final Mark (Avg.)", "Final Mark (Med.)");
     printf("-----------------------------------------------------------------------------\n");
 
     // Print student data in a table
     for (const Student &student : students)
     {
-        printf("%-20s%-20s%-10.2f\n", student.name.c_str(), student.surname.c_str(), student.finalMarkAvg);
+        printf("%-20s%-20s%-20.2f%-20.2f\n", student.name.c_str(), student.surname.c_str(), student.finalMarkAvg, student.finalMarkMed);
     }
 
     // Print the table footer
