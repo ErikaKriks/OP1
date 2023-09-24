@@ -1,12 +1,16 @@
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
+#include <stdio.h>
 
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
+using std::setw; /*ar reikia?*/
+using std::printf;
 
 
 
@@ -43,7 +47,7 @@ int main(){
         student.r = calculateFinalMark(student);
 
         // Print the student's information
-        cout << "Student Information:" << endl;
+        cout << "Student Information" << endl;
         cout << "Name: " << student.name << " " << student.surname << endl;
         cout << "Number of Marks: " << student.n << endl;
         cout << "Exam Mark: " << student.egz << endl;
@@ -54,7 +58,23 @@ int main(){
         }
         cout << "\n";
         cout << "Final Mark: " << student.r << endl;
-    
+
+        // printf("%20c%20s%20c\n", " ", "Students Information", " ");
+        // printf("------------------------------------------------------------------\n");
+        // printf("%20s%20s%10.f2%10.f2", student.name, student.surname, student.r, student.egz);
+        // printf("------------------------------------------------------------------\n");
+
+        // Print the table header
+        printf("%20c%20s%20c\n", ' ', "Students Information", ' ');
+        printf("%-20s%-20s%-20s%-20s\n", "Name", "Surname", "Final Mark (Avg.)", "Final Mark (Med.)");
+        printf("------------------------------------------------------------------\n");
+        // Print the data for a student in a row
+        printf("%-20s%-20s%-20.2f%-20d\n", student.name.c_str(), student.surname.c_str(), student.r, student.egz);
+
+        // Print the table footer
+        printf("------------------------------------------------------------------\n");
+
+        
 }
 
 
