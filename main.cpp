@@ -9,7 +9,6 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
-using std::setw; /*ar reikia?*/
 using std::printf;
 using std::sort;
 
@@ -32,49 +31,37 @@ struct Student
 
 // Function to get input for a Student structure
 void getInput(Student &student);
-float calculateFinalMark(const Student &student);
+float calculateFinalMarkAvg(const Student &student);
 float calculateFinalMarkMed(const Student &student);
+void printStudentTable(const vector<Student> &students);
 
 
 
 int main(){
-    int k; /**< Nunber of students in the class. */
+    
+    int k;
     cout << "Number of students:" << endl;
     cin >> k;
-    
-    for (int i = 0; i < k; i ++){
-        
+
+    vector<Student> students;
+
+    for (int i = 0; i < k; i++)
+    {
         Student student;
-
         getInput(student);
+        // Calculate Final Mark based on Median
+        // student.r = calculateFinalMarkMed(student);
 
-        // Calculate Final Mark based on Averge or Median of marks
-        // student.r = calculateFinalMark(student);
-        student.r = calculateFinalMarkMed(student);
+        // Calculate Final Mark based on Average
+        student.r = calculateFinalMarkAvg(student);
+        
+        students.push_back(student);
+    }
 
-        // Print the table header
-        printf("%20c%20s%20c\n\n", ' ', "Students' Information", ' ');
-        printf("%-20s%-20s%-40s\n", "Name", "Surname", "Final Mark (Avg.)/ Final Mark (Med.)");
-        printf("-----------------------------------------------------------------------------\n");
-        // Print the data for a student in a row
-        printf("%-20s%-20s%-10.2f\n", student.name.c_str(), student.surname.c_str(), student.r);
-
-        // Print the table footer
-        printf("-----------------------------------------------------------------------------\n");
-        cout << "Individual Marks: ";
-        for (size_t i = 0; i < student.marks.size(); ++i) {
-        int mark = student.marks[i];
-        cout << mark << " ";
-        }
-        cout << "\n";
-        // Testing
-        cout << "Vector len: " << student.marks.size() << endl;
-        cout << "Final Mark: " << student.r << endl;
-        cout << "Exam Mark: " << student.egz << endl;
+    printStudentTable(students);
         
 }
 
-}
 
 // Function to get input for a Student structure
 void getInput(Student &student) {
@@ -115,7 +102,7 @@ void getInput(Student &student) {
 
 
 // Function to calculate the final mark for a student
-float calculateFinalMark(const Student &student) {
+float calculateFinalMarkAvg(const Student &student) {
     float sum = 0.0;
     
     // Calculate the sum of individual marks
@@ -157,5 +144,21 @@ float calculateFinalMarkMed(const Student &student) {
 
     // Calculate the final mark using the formula: 0.4 * median + 0.6 * exam
     return 0.4 * median + 0.6 * student.egz;
+}
+
+void printStudentTable(const vector<Student> &students)
+{
+    // Print the table header
+    printf("%-20s%-20s%-40s\n", "Name", "Surname", "Final Mark (Avg.)/ Final Mark (Med.)");
+    printf("-----------------------------------------------------------------------------\n");
+
+    // Print student data in a table
+    for (const Student &student : students)
+    {
+        printf("%-20s%-20s%-10.2f\n", student.name.c_str(), student.surname.c_str(), student.r);
+    }
+
+    // Print the table footer
+    printf("-----------------------------------------------------------------------------\n");
 }
 
