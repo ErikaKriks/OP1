@@ -1,1 +1,0 @@
-student.r = calculateFinalMarkMed(student);
