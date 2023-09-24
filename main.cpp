@@ -1,8 +1,11 @@
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <stdio.h>
+#include <sstream>
+#include <chrono> // For measuring time
 
 
 using std::cout;
@@ -12,6 +15,7 @@ using std::string;
 using std::vector;
 using std::printf;
 using std::sort;
+using std::ifstream;
 
 
 
@@ -25,9 +29,9 @@ struct Student
 {
     string name; /**< The first name of the student. */
     string surname; /**< The last name of the student. */
-    int egz; /**< The number of marks the student has. The mark of exam.*/
+    int examMark; /**< The number of marks the student has. The mark of exam.*/
     vector<int> marks; /**< A vector storing the student's individual marks. */
-    float r; /**< The average score of the student. */
+    float finalMark; /**< The average score of the student. */
 };
 
 
@@ -37,32 +41,67 @@ float calculateFinalMarkAvg(const Student &student);
 float calculateFinalMarkMed(const Student &student);
 void printStudentTable(const vector<Student> &students);
 int generateRandomMark();
+void readStudentsFromFile(const string &filename, vector<Student> &students);
 
 
 
 int main(){
     
-    int k;
-    cout << "Number of students:" << endl;
-    cin >> k;
+    // int k;
+    // cout << "Number of students:" << endl;
+    // cin >> k;
+
+    // vector<Student> students;
+
+    // for (int i = 0; i < k; i++)
+    // {
+    //     Student student;
+    //     getInput(student);
+    //     // Calculate Final Mark based on Median
+    //     // student.finalMark = calculateFinalMarkMed(student);
+
+    //     // Calculate Final Mark based on Average
+    //     student.finalMark = calculateFinalMarkAvg(student);
+        
+    //     students.push_back(student);
+
+    // }
+
+    // printStudentTable(students);
 
     vector<Student> students;
+    string filename = "kursiokai.txt";
 
-    for (int i = 0; i < k; i++)
+    auto start = std::chrono::high_resolution_clock::now(); // Start measuring time
+
+    // Read student data from the file
+    readStudentsFromFile(filename, students);
+
+    auto end = std::chrono::high_resolution_clock::now(); // Stop measuring time
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    
+    // Print student data with line numbers
+    for (size_t i = 0; i < students.size(); ++i)
     {
-        Student student;
-        getInput(student);
-        // Calculate Final Mark based on Median
-        // student.r = calculateFinalMarkMed(student);
-
-        // Calculate Final Mark based on Average
-        student.r = calculateFinalMarkAvg(student);
-        
-        students.push_back(student);
-
+        const Student &student = students[i];
+        cout << "Line " << i + 2 << ":" << endl; // Line number starts from 2 due to header
+        cout << "Name: " << student.name << endl;
+        cout << "Surname: " << student.surname << endl;
+        cout << "Marks: ";
+        for (int mark : student.marks)
+        {
+            cout << mark << " ";
+        }
+        cout << endl;
+        cout << "Exam Mark: " << student.examMark << endl;
+        cout << "Final Mark: " << student.finalMark << endl;
+        cout << "---------------------------------------------" << endl;
     }
 
-    printStudentTable(students);
+    cout << "Total number of lines read: " << students.size() + 1 << " (including header)" << endl;
+    cout << "Time taken to read the file: " << duration.count() << " microseconds" << endl;
+
+    return 0;
         
 }
 
@@ -76,7 +115,7 @@ void getInput(Student &student) {
     cin >> student.surname;
 
     cout << "Enter the exam mark the student has: " << endl;
-    cin >> student.egz;
+    cin >> student.examMark;
 
     int mark;
     cout << "Enter homework marks (press Enter twice to finish): ";
@@ -118,14 +157,14 @@ float calculateFinalMarkAvg(const Student &student) {
     float averageMarks = sum / student.marks.size();
     
     // Calculate the final mark using the formula: 0.4 * average marks + 0.6 * exam
-    return 0.4 * averageMarks + 0.6 * student.egz;
+    return 0.4 * averageMarks + 0.6 * student.examMark;
 }
 
 
 // Function to calculate the final mark using median
 float calculateFinalMarkMed(const Student &student) {
     if (student.marks.empty()) {
-        return 0.6 * student.egz; // If no individual marks, return 0.6 * exam mark
+        return 0.6 * student.examMark; // If no individual marks, return 0.6 * exam mark
     }
 
     // Sort the individual marks
@@ -147,7 +186,7 @@ float calculateFinalMarkMed(const Student &student) {
     }
 
     // Calculate the final mark using the formula: 0.4 * median + 0.6 * exam
-    return 0.4 * median + 0.6 * student.egz;
+    return 0.4 * median + 0.6 * student.examMark;
 }
 
 void printStudentTable(const vector<Student> &students)
@@ -159,11 +198,66 @@ void printStudentTable(const vector<Student> &students)
     // Print student data in a table
     for (const Student &student : students)
     {
-        printf("%-20s%-20s%-10.2f\n", student.name.c_str(), student.surname.c_str(), student.r);
+        printf("%-20s%-20s%-10.2f\n", student.name.c_str(), student.surname.c_str(), student.finalMark);
     }
 
     // Print the table footer
     printf("-----------------------------------------------------------------------------\n");
+}
+
+void readStudentsFromFile(const string &filename, vector<Student> &students)
+{
+    ifstream inputFile(filename);
+
+    if (!inputFile.is_open())
+    {
+        cout << "Error: Unable to open the file." << endl;
+        return;
+    }
+
+    string line;
+    bool firstLine = true; // Skip the first line with headers
+    int lineCount = 0;
+
+    while (getline(inputFile, line))
+    {
+        ++lineCount;
+
+        if (firstLine)
+        {
+            firstLine = false;
+            continue; // Skip the header line
+        }
+
+        Student student;
+        std::istringstream iss(line);
+        string name, surname;
+        int mark;
+
+        iss >> student.name >> student.surname;
+
+        while (iss >> mark)
+        {
+            student.marks.push_back(mark);
+        }
+
+        // Assign the last value in marks as the exam mark
+        if (!student.marks.empty())
+        {
+            student.examMark = student.marks.back();
+            student.marks.pop_back(); // Remove the last element from marks
+        }
+
+        if (iss.eof())
+        {
+            iss.clear();
+            iss >> student.examMark;
+        }
+
+        students.push_back(student);
+    }
+
+    inputFile.close();
 }
 
 
