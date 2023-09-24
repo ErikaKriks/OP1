@@ -11,6 +11,7 @@ using std::string;
 using std::vector;
 using std::setw; /*ar reikia?*/
 using std::printf;
+using std::sort;
 
 
 
@@ -32,6 +33,9 @@ struct Student
 // Function to get input for a Student structure
 void getInput(Student &student);
 float calculateFinalMark(const Student &student);
+float calculateFinalMarkMed(const Student &student);
+
+
 
 int main(){
     int k; /**< Nunber of students in the class. */
@@ -44,35 +48,20 @@ int main(){
 
         getInput(student);
 
-        student.r = calculateFinalMark(student);
+        // Calculate Final Mark based on Averge or Median of marks
+        // student.r = calculateFinalMark(student);
+        student.r = calculateFinalMarkMed(student);
 
-        // Print the student's information
-        cout << "Student Information" << endl;
-        cout << "Name: " << student.name << " " << student.surname << endl;
-        cout << "Number of Marks: " << student.n << endl;
-        cout << "Exam Mark: " << student.egz << endl;
-        cout << "Individual Marks: ";
-        for (size_t i = 0; i < student.marks.size(); ++i) {
-        int mark = student.marks[i];
-        cout << mark << " ";
-        }
-        cout << "\n";
-        cout << "Final Mark: " << student.r << endl;
-
-        // printf("%20c%20s%20c\n", " ", "Students Information", " ");
-        // printf("------------------------------------------------------------------\n");
-        // printf("%20s%20s%10.f2%10.f2", student.name, student.surname, student.r, student.egz);
-        // printf("------------------------------------------------------------------\n");
 
         // Print the table header
-        printf("%20c%20s%20c\n", ' ', "Students Information", ' ');
-        printf("%-20s%-20s%-20s%-20s\n", "Name", "Surname", "Final Mark (Avg.)", "Final Mark (Med.)");
-        printf("------------------------------------------------------------------\n");
+        printf("%20c%20s%20c\n\n", ' ', "Students' Information", ' ');
+        printf("%-20s%-20s%-40s\n", "Name", "Surname", "Final Mark (Avg.)/ Final Mark (Med.)");
+        printf("-----------------------------------------------------------------------------\n");
         // Print the data for a student in a row
-        printf("%-20s%-20s%-20.2f%-20d\n", student.name.c_str(), student.surname.c_str(), student.r, student.egz);
+        printf("%-20s%-20s%-440.2f\n", student.name.c_str(), student.surname.c_str(), student.r);
 
         // Print the table footer
-        printf("------------------------------------------------------------------\n");
+        printf("-----------------------------------------------------------------------------\n");
 
         
 }
@@ -117,5 +106,31 @@ float calculateFinalMark(const Student &student) {
     
     // Calculate the final mark using the formula: 0.4 * average marks + 0.6 * exam
     return 0.4 * averageMarks + 0.6 * student.egz;
+}
+
+// Function to calculate the final mark using median
+float calculateFinalMarkMed(const Student &student) {
+    if (student.marks.empty()) {
+        return 0.6 * student.egz; // If no individual marks, return 0.6 * exam mark
+    }
+
+    // Sort the individual marks
+    vector<int> sortedMarks = student.marks;
+    sort(sortedMarks.begin(), sortedMarks.end());
+
+    // Calculate the median
+    float median;
+    if (student.n % 2 == 0) {
+        // If even number of marks, take the average of the middle two
+        int middle1 = sortedMarks[(student.n / 2) - 1];
+        int middle2 = sortedMarks[student.n / 2];
+        median = (static_cast<float>(middle1) + static_cast<float>(middle2)) / 2.0;
+    } else {
+        // If odd number of marks, take the middle value
+        median = static_cast<float>(sortedMarks[student.n / 2]);
+    }
+
+    // Calculate the final mark using the formula: 0.4 * median + 0.6 * exam
+    return 0.4 * median + 0.6 * student.egz;
 }
 
