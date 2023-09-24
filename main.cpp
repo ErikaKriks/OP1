@@ -31,7 +31,8 @@ struct Student
     string surname; /**< The last name of the student. */
     int examMark; /**< The number of marks the student has. The mark of exam.*/
     vector<int> marks; /**< A vector storing the student's individual marks. */
-    float finalMark; /**< The average score of the student. */
+    float finalMarkAvg; /**< The average score of the student. */
+    float finalMarkMed; /**< The average score of the student. */
 };
 
 
@@ -83,7 +84,14 @@ int main(){
     // Print student data with line numbers
     for (size_t i = 0; i < students.size(); ++i)
     {
-        const Student &student = students[i];
+        Student &student = students[i];
+
+        // Calculate Final Mark based on Average
+        student.finalMarkAvg = calculateFinalMarkAvg(student);
+
+        // Calculate Final Mark based on Median
+        student.finalMarkMed = calculateFinalMarkMed(student);
+
         cout << "Line " << i + 2 << ":" << endl; // Line number starts from 2 due to header
         cout << "Name: " << student.name << endl;
         cout << "Surname: " << student.surname << endl;
@@ -94,7 +102,8 @@ int main(){
         }
         cout << endl;
         cout << "Exam Mark: " << student.examMark << endl;
-        cout << "Final Mark: " << student.finalMark << endl;
+        cout << "Final Mark Avg: " << student.finalMarkAvg << endl;
+        cout << "Final Mark Med: " << student.finalMarkMed << endl;
         cout << "---------------------------------------------" << endl;
     }
 
@@ -198,7 +207,7 @@ void printStudentTable(const vector<Student> &students)
     // Print student data in a table
     for (const Student &student : students)
     {
-        printf("%-20s%-20s%-10.2f\n", student.name.c_str(), student.surname.c_str(), student.finalMark);
+        printf("%-20s%-20s%-10.2f\n", student.name.c_str(), student.surname.c_str(), student.finalMarkAvg);
     }
 
     // Print the table footer
