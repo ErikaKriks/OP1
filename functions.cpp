@@ -16,6 +16,9 @@ using std::vector;
 using std::printf;
 using std::sort;
 using std::ifstream;
+using std::cerr;
+using std::invalid_argument;
+using std::runtime_error;
 
 
 
@@ -80,60 +83,60 @@ void printStudentTable(const vector<Student> &students)
     printf("-----------------------------------------------------------------------------\n");
 }
 
-void readStudentsFromFile(const string &filename, vector<Student> &students)
-{
-    ifstream inputFile(filename);
+// void readStudentsFromFile(const string &filename, vector<Student> &students)
+// {
+//     ifstream inputFile(filename);
 
-    if (!inputFile.is_open())
-    {
-        cout << "Error: Unable to open the file." << endl;
-        return;
-    }
+//     if (!inputFile.is_open())
+//     {
+//         cout << "Error: Unable to open the file." << endl;
+//         return;
+//     }
 
-    string line;
-    bool firstLine = true; // Skip the first line with headers
-    int lineCount = 0;
+//     string line;
+//     bool firstLine = true; // Skip the first line with headers
+//     int lineCount = 0;
 
-    while (getline(inputFile, line))
-    {
-        ++lineCount;
+//     while (getline(inputFile, line))
+//     {
+//         ++lineCount;
 
-        if (firstLine)
-        {
-            firstLine = false;
-            continue; // Skip the header line
-        }
+//         if (firstLine)
+//         {
+//             firstLine = false;
+//             continue; // Skip the header line
+//         }
 
-        Student student;
-        std::istringstream iss(line);
-        string name, surname;
-        int mark;
+//         Student student;
+//         std::istringstream iss(line);
+//         string name, surname;
+//         int mark;
 
-        iss >> student.name >> student.surname;
+//         iss >> student.name >> student.surname;
 
-        while (iss >> mark)
-        {
-            student.marks.push_back(mark);
-        }
+//         while (iss >> mark)
+//         {
+//             student.marks.push_back(mark);
+//         }
 
-        // Assign the last value in marks as the exam mark
-        if (!student.marks.empty())
-        {
-            student.examMark = student.marks.back();
-            student.marks.pop_back(); // Remove the last element from marks
-        }
+//         // Assign the last value in marks as the exam mark
+//         if (!student.marks.empty())
+//         {
+//             student.examMark = student.marks.back();
+//             student.marks.pop_back(); // Remove the last element from marks
+//         }
 
-        if (iss.eof())
-        {
-            iss.clear();
-            iss >> student.examMark;
-        }
+//         if (iss.eof())
+//         {
+//             iss.clear();
+//             iss >> student.examMark;
+//         }
 
-        students.push_back(student);
-    }
+//         students.push_back(student);
+//     }
 
-    inputFile.close();
-}
+//     inputFile.close();
+// }
 
 // Comparison function for sorting students by name and surname
 bool compareStudents(const Student &student1, const Student &student2) {
@@ -145,4 +148,69 @@ bool compareStudents(const Student &student1, const Student &student2) {
     
     // If names are equal, compare by surname
     return student1.surname.compare(student2.surname) < 0;
+}
+
+void readStudentsFromFile(const string &filename, vector<Student> &students)
+{
+    ifstream inputFile(filename);
+
+    try {
+        if (filename.empty())
+        {
+            throw invalid_argument("Error: File name not provided.");
+        }
+
+        if (!inputFile.is_open())
+        {
+            throw runtime_error("Error: Unable to open the file.");
+        }
+
+        string line;
+        bool firstLine = true; // Skip the first line with headers
+        int lineCount = 0;
+
+        while (getline(inputFile, line))
+        {
+            ++lineCount;
+
+            if (firstLine)
+            {
+                firstLine = false;
+                continue; // Skip the header line
+            }
+
+            Student student;
+            std::istringstream iss(line);
+            string name, surname;
+            int mark;
+
+            iss >> student.name >> student.surname;
+
+            while (iss >> mark)
+            {
+                student.marks.push_back(mark);
+            }
+
+            // Assign the last value in marks as the exam mark
+            if (!student.marks.empty())
+            {
+                student.examMark = student.marks.back();
+                student.marks.pop_back(); // Remove the last element from marks
+            }
+
+            if (iss.eof())
+            {
+                iss.clear();
+                iss >> student.examMark;
+            }
+
+            students.push_back(student);
+        }
+
+        inputFile.close();
+    } catch (const invalid_argument &e) {
+        cerr << e.what() << endl;
+    } catch (const runtime_error &e) {
+        cerr << e.what() << endl;
+    }
 }

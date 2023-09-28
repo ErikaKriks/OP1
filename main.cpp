@@ -17,6 +17,9 @@ using std::vector;
 using std::printf;
 using std::sort;
 using std::ifstream;
+using std::cerr;
+using std::invalid_argument;
+using std::runtime_error;
 
 
 int main(){
