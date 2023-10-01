@@ -25,6 +25,10 @@ using std::runtime_error;
 // Function to calculate the final mark for a student
 float calculateFinalMarkAvg(const Student &student) {
     float sum = 0.0;
+
+    if (student.marks.empty()) {
+        return 0.6 * student.examMark; // If no individual marks, return 0.6 * exam mark
+    }
     
     // Calculate the sum of individual marks
     for (int mark : student.marks) {
@@ -156,7 +160,9 @@ void readStudentsFromFile(const string &filename, vector<Student> &students)
         inputFile.close();
     } catch (const invalid_argument &e) {
         cerr << e.what() << endl;
+        cout << "File not provided." << endl;
     } catch (const runtime_error &e) {
         cerr << e.what() << endl;
+        cout << "Error opening a file: " << e.what() << endl;
     }
 }
