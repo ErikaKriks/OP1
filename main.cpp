@@ -38,7 +38,7 @@ int main(){
     for (size_t i = 0; i < students.size(); ++i)
     {
         Student &student = students[i];
-
+        
         // Calculate Final Mark based on Average
         student.finalMarkAvg = calculateFinalMarkAvg(student);
 
