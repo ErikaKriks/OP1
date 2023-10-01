@@ -160,9 +160,10 @@ void readStudentsFromFile(const string &filename, vector<Student> &students)
         inputFile.close();
     } catch (const invalid_argument &e) {
         cerr << e.what() << endl;
-        cout << "Data file not provided." << endl;
+        cout << "File not provided." << endl;
     } catch (const runtime_error &e) {
         cerr << e.what() << endl;
-        cout << "Error in code." << e.what() << endl;
-    }
+        cout << "Error opening a file: " << e.what() << endl;
+}
+
 }
