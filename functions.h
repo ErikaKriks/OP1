@@ -9,7 +9,7 @@ using std::vector;
 
 
 // @struct Student
-//  @brief Represents a student with their name, surname, marks, and a rating.
+// @brief Represents a student with their name, surname, marks, and a rating.
 struct Student
 {
     string name; /**< The first name of the student. */
