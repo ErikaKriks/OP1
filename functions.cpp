@@ -5,6 +5,9 @@
 #include <vector>
 #include <stdio.h>
 #include <sstream>
+#include <random>
+#include <ctime>
+#include <cstdlib>
 #include "functions.h"
 
 
@@ -19,6 +22,12 @@ using std::ifstream;
 using std::cerr;
 using std::invalid_argument;
 using std::runtime_error;
+using std::to_string;
+using std::default_random_engine;
+using std::uniform_int_distribution;
+using std::ofstream;
+using std::left;
+using std::setw;
 
 
 
@@ -166,4 +175,63 @@ void readStudentsFromFile(const string &filename, vector<Student> &students)
         cout << "Error opening a file: " << e.what() << endl;
 }
 
+}
+
+// Function to generate a random student name
+string generateRandomName(int studentNumber) {
+    return "Vardas" + to_string(studentNumber);
+}
+
+
+// Function to generate a random student surname
+string generateRandomSurname(int studentNumber) {
+    return "Pavarde" + to_string(studentNumber);
+}
+
+
+// Function to generate random individual marks between 1 and 10
+int generateRandomMark() {
+    static default_random_engine generator(time(0));
+    uniform_int_distribution<int> markDistribution(1, 10);
+    return markDistribution(generator);
+}
+
+
+// Function to generate random student data
+Student generateRandomStudent(int studentNumber, int numMarks) {
+    Student student;
+    student.name = generateRandomName(studentNumber);
+    student.surname = generateRandomSurname(studentNumber);
+    student.examMark = generateRandomMark(); // Random exam mark between 1 and 10
+
+    for (int i = 0; i < numMarks; ++i) {
+        student.marks.push_back(generateRandomMark()); // Random individual marks between 1 and 10
+    }
+
+    return student;
+}
+
+// Function to save student data to a file
+void saveStudentDataToFile(const string& filename, const vector<Student>& students) {
+    ofstream file(filename);
+
+    if (file.is_open()) {
+        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde";
+        for (int i = 1; i <= 15; ++i) {
+            file << left << setw(9) << "ND" + to_string(i);
+        }
+        file << "Egz." << endl;
+
+        for (const Student& student : students) {
+            file << left << setw(24) << student.name << setw(24) << student.surname;
+            for (int mark : student.marks) {
+                file << left << setw(9) << mark;
+            }
+            file << student.examMark << endl;
+        }
+
+        file.close();
+    } else {
+        cout << "Error: Could not open file for writing." << endl;
+    }
 }
