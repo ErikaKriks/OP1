@@ -34,23 +34,24 @@ using std::setw;
 
 
 
-int main(){
-
+int main() {
     // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-    vector<int> numStudentsList = {10};
+    vector<int> numStudentsList = {10, 100};
 
     for (int numStudents : numStudentsList) {
-        
-        // Generating and storing data
+        // Step 1: Data generation and saving
+        auto startGeneration = std::chrono::high_resolution_clock::now();
         vector<Student> students;
         for (int i = 1; i <= numStudents; ++i) {
             students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
         }
         string filename = "students" + to_string(numStudents) + ".txt";
         saveStudentDataToFile(filename, students);
-        cout << "Data for " << numStudents << " students has been saved to " << filename << endl;
+        auto endGeneration = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> generationTime = endGeneration - startGeneration;
 
-        // Categorising data into two groups
+        // Step 2: Categorization
+        auto startCategorization = std::chrono::high_resolution_clock::now();
         vector<Student> failStudents;
         vector<Student> passStudents;
 
@@ -66,17 +67,26 @@ int main(){
         // Sort the failStudents and passStudents vectors
         sort(failStudents.begin(), failStudents.end(), compareStudents);
         sort(passStudents.begin(), passStudents.end(), compareStudents);
+        auto endCategorization = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> categorizationTime = endCategorization - startCategorization;
 
-
+        // Step 3: Saving categorized data
+        auto startSavingCategorized = std::chrono::high_resolution_clock::now();
         string filenameFail = "students" + to_string(numStudents) + "_fail.txt";
         string filenamePass = "students" + to_string(numStudents) + "_pass.txt";
 
         saveStudentDataToFile(filenameFail, failStudents);
         saveStudentDataToFile(filenamePass, passStudents);
+        auto endSavingCategorized = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
 
-        cout << "Data for " << numStudents << " students has been saved to " << filenameFail << " and " << filenamePass << endl;
+        cout << "Execution times for " << numStudents << " students:" << endl;
+        cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
+        cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
+        cout << "Saving categorized data: " << savingCategorizedTime.count() << " seconds" << endl;
+        cout << "------------------------" << endl;
     }
 
     return 0;
-        
 }
+
