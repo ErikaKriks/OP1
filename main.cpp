@@ -40,11 +40,17 @@ int main(){
     vector<int> numStudentsList = {10};
 
     for (int numStudents : numStudentsList) {
+        
+        // Generating and storing data
         vector<Student> students;
         for (int i = 1; i <= numStudents; ++i) {
             students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
         }
+        string filename = "students" + to_string(numStudents) + ".txt";
+        saveStudentDataToFile(filename, students);
+        cout << "Data for " << numStudents << " students has been saved to " << filename << endl;
 
+        // Categorising data into two groups
         vector<Student> failStudents;
         vector<Student> passStudents;
 
@@ -74,5 +80,3 @@ int main(){
     return 0;
         
 }
-
-
