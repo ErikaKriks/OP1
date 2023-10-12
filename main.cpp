@@ -39,7 +39,7 @@ int main() {
     vector<int> numStudentsList = {10, 100};
 
     for (int numStudents : numStudentsList) {
-        // Step 1: Data generation and saving
+        // Data generation and saving
         auto startGeneration = std::chrono::high_resolution_clock::now();
         vector<Student> students;
         for (int i = 1; i <= numStudents; ++i) {
@@ -50,7 +50,7 @@ int main() {
         auto endGeneration = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> generationTime = endGeneration - startGeneration;
 
-        // Step 2: Categorization
+        // Categorization
         auto startCategorization = std::chrono::high_resolution_clock::now();
         vector<Student> failStudents;
         vector<Student> passStudents;
@@ -70,7 +70,7 @@ int main() {
         auto endCategorization = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> categorizationTime = endCategorization - startCategorization;
 
-        // Step 3: Saving categorized data
+        // Saving categorized data
         auto startSavingCategorized = std::chrono::high_resolution_clock::now();
         string filenameFail = "students" + to_string(numStudents) + "_fail.txt";
         string filenamePass = "students" + to_string(numStudents) + "_pass.txt";
