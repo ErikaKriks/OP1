@@ -26,5 +26,11 @@ float calculateFinalMarkMed(const Student &student);
 void printStudentTable(const vector<Student> &students);
 void readStudentsFromFile(const string &filename, vector<Student> &students);
 bool compareStudents(const Student &student1, const Student &student2);
+string generateRandomName(int studentNumber);
+string generateRandomSurname(int studentNumber);
+int generateRandomMark();
+Student generateRandomStudent(int studentNumber, int numMarks);
+void saveStudentDataToFile(const string& filename, const vector<Student>& students);
+
 
 #endif // FUNCTIONS_H_INCLUDED
