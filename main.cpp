@@ -30,11 +30,16 @@ using std::runtime_error;
 using std::to_string;
 using std::default_random_engine;
 using std::uniform_int_distribution;
+using std::ofstream;
+using std::left;
+using std::setw;
 
 string generateRandomName(int studentNumber);
 string generateRandomSurname(int studentNumber);
 int generateRandomMark();
 Student generateRandomStudent(int studentNumber, int numMarks);
+void saveStudentDataToFile(const string& filename, const vector<Student>& students);
+
 
 
 
@@ -42,22 +47,33 @@ Student generateRandomStudent(int studentNumber, int numMarks);
 
 int main(){
 
-    int stud_nr = 10;
+    int numStudents = 10;
 
-    for (int i = 1; i <= stud_nr; ++i) {
-        Student randomStudent = generateRandomStudent(i, 5); // Generating a random student with 5 marks
-        cout << "Student " << i << " Data:" << endl;
-        cout << "Name: " << randomStudent.name << endl;
-        cout << "Surname: " << randomStudent.surname << endl;
-        cout << "Exam Mark: " << randomStudent.examMark << endl;
-        cout << "Individual Marks: ";
-        for (int mark : randomStudent.marks) {
-            cout << mark << " ";
-        }
-        cout << endl << "--------------------------------" << endl;
+    vector<Student> students;
+    for (int i = 1; i <= numStudents; ++i) {
+        students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
     }
 
+    string filename = "students10.txt";
+    saveStudentDataToFile(filename, students);
+    cout << "Data for " << numStudents << " students has been saved to " << filename << endl;
+
     return 0;
+
+    // for (int i = 1; i <= stud_nr; ++i) {
+    //     Student randomStudent = generateRandomStudent(i, 5); // Generating a random student with 5 marks
+    //     cout << "Student " << i << " Data:" << endl;
+    //     cout << "Name: " << randomStudent.name << endl;
+    //     cout << "Surname: " << randomStudent.surname << endl;
+    //     cout << "Exam Mark: " << randomStudent.examMark << endl;
+    //     cout << "Individual Marks: ";
+    //     for (int mark : randomStudent.marks) {
+    //         cout << mark << " ";
+    //     }
+    //     cout << endl << "--------------------------------" << endl;
+    // }
+
+    // return 0;
 
     // vector<Student> students;
     // string filename = "kursiokai.txt";
@@ -129,4 +145,29 @@ Student generateRandomStudent(int studentNumber, int numMarks) {
     }
 
     return student;
+}
+
+// Function to save student data to a file
+void saveStudentDataToFile(const string& filename, const vector<Student>& students) {
+    ofstream file(filename);
+
+    if (file.is_open()) {
+        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde";
+        for (int i = 1; i <= 15; ++i) {
+            file << left << setw(9) << "ND" + to_string(i);
+        }
+        file << "Egz." << endl;
+
+        for (const Student& student : students) {
+            file << left << setw(24) << student.name << setw(24) << student.surname;
+            for (int mark : student.marks) {
+                file << left << setw(9) << mark;
+            }
+            file << student.examMark << endl;
+        }
+
+        file.close();
+    } else {
+        cout << "Error: Could not open file for writing." << endl;
+    }
 }
