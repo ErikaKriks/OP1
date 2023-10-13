@@ -23,31 +23,31 @@ First exercise of Object Programming course, year 2.
 
 #### Results of the experiment
 ##### Execution times for 1 000 students:
-<br>Data generation and saving: 0.023 seconds
+Data generation and saving: 0.023 seconds
 <br>Reading: 0.002 seconds
 <br>Categorization: 0.015 seconds
 <br>Saving categorized data: 0.009 seconds
 
 ##### Execution times for 10 000 students:
-<br>Data generation and saving: 0.095 seconds
+Data generation and saving: 0.095 seconds
 <br>Reading: 0.016 seconds
 <br>Categorization: 0.090 seconds
 <br>Saving categorized data: 0.054 seconds
 
 ##### Execution times for 100 000 students:
-<br>Data generation and saving: 0.832 seconds
+Data generation and saving: 0.832 seconds
 <br>Reading: 0.187 seconds
 <br>Categorization: 0.893 seconds
 <br>Saving categorized data: 0.528 seconds
 
 ##### Execution times for 1 000 000 students:
-<br>Data generation and saving: 8.452 seconds
+Data generation and saving: 8.452 seconds
 <br>Reading: 2.263 seconds
 <br>Categorization: 9.152 seconds
 <br>Saving categorized data: 5.243 seconds
 
 ##### Execution times for 10 000 000 students:
-<br>Data generation and saving: 91.601 seconds
+Data generation and saving: 91.601 seconds
 <br>Reading: 26.528 seconds
 <br>Categorization: 93.732 seconds
 <br>Saving categorized data: 58.0112 seconds
