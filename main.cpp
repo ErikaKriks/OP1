@@ -35,8 +35,8 @@ using std::setw;
 
 
 int main() {
-    // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-    vector<int> numStudentsList = {10, 100};
+    vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
+    // vector<int> numStudentsList = {10, 100}; // For testing purposes
 
     for (int numStudents : numStudentsList) {
         // Data generation and saving
@@ -50,12 +50,20 @@ int main() {
         auto endGeneration = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> generationTime = endGeneration - startGeneration;
 
+        // Reading data
+        auto startReading = std::chrono::high_resolution_clock::now();
+        vector<Student> readStudents;
+        readStudentsFromFile(filename, readStudents);
+        auto endReading = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double> categorizationTime = endReading - startReading;
+        
+
         // Categorization
         auto startCategorization = std::chrono::high_resolution_clock::now();
         vector<Student> failStudents;
         vector<Student> passStudents;
 
-        for (const Student& student : students) {
+        for (const Student& student : readStudents) {
             float finalMark = calculateFinalMarkAvg(student); // You can use either Avg or Med function
             if (finalMark < 5.0) {
                 failStudents.push_back(student);
@@ -68,7 +76,7 @@ int main() {
         sort(failStudents.begin(), failStudents.end(), compareStudents);
         sort(passStudents.begin(), passStudents.end(), compareStudents);
         auto endCategorization = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> categorizationTime = endCategorization - startCategorization;
+        std::chrono::duration<double> readingTime = endCategorization - startCategorization;
 
         // Saving categorized data
         auto startSavingCategorized = std::chrono::high_resolution_clock::now();
@@ -82,6 +90,7 @@ int main() {
 
         cout << "Execution times for " << numStudents << " students:" << endl;
         cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
+        cout << "Reading: " << readingTime.count() << " seconds" << endl;
         cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
         cout << "Saving categorized data: " << savingCategorizedTime.count() << " seconds" << endl;
         cout << "------------------------" << endl;
