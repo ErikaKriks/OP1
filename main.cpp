@@ -30,6 +30,10 @@ using std::uniform_int_distribution;
 using std::ofstream;
 using std::left;
 using std::setw;
+using std::chrono::high_resolution_clock;
+using std::chrono::duration;
+using std::chrono::duration_cast;
+using std::chrono::seconds;
 
 
 
@@ -37,6 +41,7 @@ using std::setw;
 int main() {
     vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
     // vector<int> numStudentsList = {10, 100}; // For testing purposes
+
 
     for (int numStudents : numStudentsList) {
         // Data generation and saving
