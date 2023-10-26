@@ -51,3 +51,45 @@ Data generation and saving: 91.601 seconds
 <br>Reading: 26.528 seconds
 <br>Categorization: 93.732 seconds
 <br>Saving categorized data: 58.0112 seconds
+
+### [v.03](https://github.com/ErikaKriks/project1/releases/tag/v.03)
+**main.cpp** - the script for students' final mark calculations, all data is input by the user.
+<br>**Additional functionality**
+* Vector structure changed to List.
+* Experiment comparing List and Vector structures efficiency performed.
+
+Technical Specifications of Computer:
+* 6-core GPU,19-core GPU
+* 200GB/s memory bandwidth
+* 16 GB RAM
+* 512GB SSD
+
+
+| Records | Data Generation | Data Reading | Data Categorisation | Data Saving| 
+|--|--|--|--|--|
+| 1000 | 0.0334759s | 0.043547s | 0.0308996s | 0.0228836s |
+| 10000 | 0.258879s | 0.437449s | 0.282487s | 0.23899s |
+| 100000 | 2.67213s  | 4.29333s | 3.19421s | 2.45287s | 
+| 1000000 | 28.2486s | 45.9048s | 38.8148s | 26.3797s |
+| 10000000 | 291.395s | 486.684s | 339.999s | 237.5145s |
+|--|--|--|--|--|
+
+Data Reading from File
+| Įrašų kiekis | std::vector | std::list |
+|--|--|--|--|
+| 1000 | 0.0346424s | 0.0297271s |
+| 10000 | 0.377744s | 0.315256s |
+| 100000 | 3.94547s  | 3.68806s | 
+| 1000000 | 45.5481s | 37.872s |
+| 10000000 | 407.2541s | 319.776s |
+
+
+Data Categorisation 
+| Įrašų kiekis | std::vector | std::list |
+|--|--|--|--|
+| 1000 | 0.0165383s | 0.0198501s |
+| 10000 | 0.155005s | 0.181945s |
+| 100000 |  1.80015s  | 2.18703s |
+| 1000000 | 25.9591s | 24.8492s | 
+| 10000000 | 215.4571s | 238.7514s |
+
