@@ -2,9 +2,11 @@
 #define FUNCTIONS_H_INCLUDED
 
 #include <string>
+#include <list>
 #include <vector>
 
 using std::string;
+using std::list;
 using std::vector;
 
 
@@ -23,14 +25,14 @@ struct Student
 // Functions
 float calculateFinalMarkAvg(const Student &student);
 float calculateFinalMarkMed(const Student &student);
-void printStudentTable(const vector<Student> &students);
-void readStudentsFromFile(const string &filename, vector<Student> &students);
+void printStudentTable(const list<Student> &students);
+void readStudentsFromFile(const string &filename, list<Student> &students);
 bool compareStudents(const Student &student1, const Student &student2);
 string generateRandomName(int studentNumber);
 string generateRandomSurname(int studentNumber);
 int generateRandomMark();
 Student generateRandomStudent(int studentNumber, int numMarks);
-void saveStudentDataToFile(const string& filename, const vector<Student>& students);
+void saveStudentDataToFile(const string& filename, const list<Student>& students);
 
 
 #endif // FUNCTIONS_H_INCLUDED
