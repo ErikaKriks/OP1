@@ -78,10 +78,10 @@ int main() {
                 passStudents.push_back(student);
             }
         }
-
+        
         // Sort the failStudents and passStudents lists
-        sort(failStudents.begin(), failStudents.end(), compareStudents);
-        sort(passStudents.begin(), passStudents.end(), compareStudents);
+        failStudents.sort(compareStudents);
+        passStudents.sort(compareStudents);
         auto endCategorization = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> readingTime = endCategorization - startCategorization;
 
