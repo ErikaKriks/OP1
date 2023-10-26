@@ -96,6 +96,7 @@ int main() {
         std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
 
         cout << "Execution times for " << numStudents << " students:" << endl;
+        cout << "Memory address of the data structure: " << &students << endl;
         cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
         cout << "Reading: " << readingTime.count() << " seconds" << endl;
         cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
