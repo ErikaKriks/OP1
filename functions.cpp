@@ -82,22 +82,6 @@ float calculateFinalMarkMed(const Student &student) {
     return 0.4 * median + 0.6 * student.examMark;
 }
 
-// void printStudentTable(const vector<Student> &students)
-// {
-//     // Print the table header
-//     printf("%-20s%-20s%-20s%-20s\n", "Name", "Surname", "Final Mark (Avg.)", "Final Mark (Med.)");
-//     printf("-----------------------------------------------------------------------------\n");
-
-//     // Print student data in a table
-//     for (const Student &student : students)
-//     {
-//         printf("%-20s%-20s%-20.2f%-20.2f\n", student.name.c_str(), student.surname.c_str(), student.finalMarkAvg, student.finalMarkMed);
-//     }
-
-//     // Print the table footer
-//     printf("-----------------------------------------------------------------------------\n");
-// }
-
 
 // Comparison function for sorting students by name and surname
 bool compareStudents(const Student &student1, const Student &student2) {
