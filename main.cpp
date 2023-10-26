@@ -10,6 +10,7 @@
 #include <cstdlib>
 #include "functions.h"
 #include <chrono> // For measuring time
+#include <list> 
 
 
 
@@ -18,6 +19,7 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
+using std::list;
 using std::printf;
 using std::sort;
 using std::ifstream;
@@ -39,14 +41,14 @@ using std::chrono::seconds;
 
 
 int main() {
-    vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-    // vector<int> numStudentsList = {10, 100}; // For testing purposes
+    // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
+    vector<int> numStudentsList = {10, 100}; // For testing purposes
 
 
     for (int numStudents : numStudentsList) {
         // Data generation and saving
         auto startGeneration = std::chrono::high_resolution_clock::now();
-        vector<Student> students;
+        list<Student> students;
         for (int i = 1; i <= numStudents; ++i) {
             students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
         }
@@ -57,7 +59,7 @@ int main() {
 
         // Reading data
         auto startReading = std::chrono::high_resolution_clock::now();
-        vector<Student> readStudents;
+        list<Student> readStudents;
         readStudentsFromFile(filename, readStudents);
         auto endReading = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> categorizationTime = endReading - startReading;
@@ -65,8 +67,8 @@ int main() {
 
         // Categorization
         auto startCategorization = std::chrono::high_resolution_clock::now();
-        vector<Student> failStudents;
-        vector<Student> passStudents;
+        list<Student> failStudents;
+        list<Student> passStudents;
 
         for (const Student& student : readStudents) {
             float finalMark = calculateFinalMarkAvg(student); // You can use either Avg or Med function
@@ -77,7 +79,7 @@ int main() {
             }
         }
 
-        // Sort the failStudents and passStudents vectors
+        // Sort the failStudents and passStudents lists
         sort(failStudents.begin(), failStudents.end(), compareStudents);
         sort(passStudents.begin(), passStudents.end(), compareStudents);
         auto endCategorization = std::chrono::high_resolution_clock::now();
