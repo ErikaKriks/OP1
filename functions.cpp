@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <list> 
 #include <stdio.h>
 #include <sstream>
 #include <random>
@@ -16,6 +17,7 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
+using std::list;
 using std::printf;
 using std::sort;
 using std::ifstream;
@@ -80,21 +82,21 @@ float calculateFinalMarkMed(const Student &student) {
     return 0.4 * median + 0.6 * student.examMark;
 }
 
-void printStudentTable(const vector<Student> &students)
-{
-    // Print the table header
-    printf("%-20s%-20s%-20s%-20s\n", "Name", "Surname", "Final Mark (Avg.)", "Final Mark (Med.)");
-    printf("-----------------------------------------------------------------------------\n");
+// void printStudentTable(const vector<Student> &students)
+// {
+//     // Print the table header
+//     printf("%-20s%-20s%-20s%-20s\n", "Name", "Surname", "Final Mark (Avg.)", "Final Mark (Med.)");
+//     printf("-----------------------------------------------------------------------------\n");
 
-    // Print student data in a table
-    for (const Student &student : students)
-    {
-        printf("%-20s%-20s%-20.2f%-20.2f\n", student.name.c_str(), student.surname.c_str(), student.finalMarkAvg, student.finalMarkMed);
-    }
+//     // Print student data in a table
+//     for (const Student &student : students)
+//     {
+//         printf("%-20s%-20s%-20.2f%-20.2f\n", student.name.c_str(), student.surname.c_str(), student.finalMarkAvg, student.finalMarkMed);
+//     }
 
-    // Print the table footer
-    printf("-----------------------------------------------------------------------------\n");
-}
+//     // Print the table footer
+//     printf("-----------------------------------------------------------------------------\n");
+// }
 
 
 // Comparison function for sorting students by name and surname
@@ -109,7 +111,7 @@ bool compareStudents(const Student &student1, const Student &student2) {
     return student1.surname.compare(student2.surname) < 0;
 }
 
-void readStudentsFromFile(const string &filename, vector<Student> &students)
+void readStudentsFromFile(const string &filename, list<Student> &students)
 {
     ifstream inputFile(filename);
 
@@ -212,7 +214,7 @@ Student generateRandomStudent(int studentNumber, int numMarks) {
 }
 
 // Function to save student data to a file
-void saveStudentDataToFile(const string& filename, const vector<Student>& students) {
+void saveStudentDataToFile(const string& filename, const list<Student>& students) {
     ofstream file(filename);
 
     if (file.is_open()) {
