@@ -72,7 +72,7 @@ Technical Specifications of Computer:
 | 100 000 | 0.832s  | 0.187s | 0.893s | 0.528s | 
 | 1 000 000 | 8.452s | 2.263s | 9.152s | 5.243s |
 | 10 000 000 | 91.601s | 26.528s | 93.732s | 58.0112s |
-|--|--|--|--|--|
+
 
 #### v.03 (Lists)
 | Records | Data Generation | Data Reading | Data Categorisation | Data Saving| 
@@ -82,7 +82,7 @@ Technical Specifications of Computer:
 | 100 000 | 0.978s  | 0.103s | 0.931s | 0.612s | 
 | 1 000 000 | 10.129s | 1.231s | 9.276s | 6.421s |
 | 10 000 000 | 105.885s | 15.338s | 93.242s | 72.306s |
-|--|--|--|--|--|
+
 
 Data Reading from File
 | Records | std::vector | std::list |
@@ -92,7 +92,7 @@ Data Reading from File
 | 100 000 | 0.187s  | 0.103s | 
 | 1 000 000 | 2.263s | 1.231s |
 | 10 000 000 | 26.528s | 15.338s |
-|--|--|--|
+
 
 Data Categorisation 
 | Įrašų kiekis | std::vector | std::list |
@@ -102,4 +102,4 @@ Data Categorisation
 | 100 000 |  0.893s  | 0.931s |
 | 1 000 000 | 9.152s | 9.276s | 
 | 10 000 000 | 93.732s | 93.242s |
-|--|--|--|
+
