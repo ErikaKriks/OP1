@@ -41,8 +41,8 @@ using std::chrono::seconds;
 
 
 int main() {
-    // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-    vector<int> numStudentsList = {10, 100}; // For testing purposes
+    vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
+    // vector<int> numStudentsList = {10, 100}; // For testing purposes
 
 
     for (int numStudents : numStudentsList) {
