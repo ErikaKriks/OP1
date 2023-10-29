@@ -24,20 +24,25 @@ struct Student
 };
 
 // Functions
-int users_choice();
-int users_choice_Avg_Med();
+int usersChoice();
+int usersChoiceAvgMed();
+int usersChoiceVectorList();
 void getInput(Student &student);
 void getInputAuto(Student &student);
 float calculateFinalMarkAvg(const Student &student);
 float calculateFinalMarkMed(const Student &student);
 void printStudentTable(const vector<Student> &students);
-void readStudentsFromFile(const string &filename, list<Student> &students);
+void printStudentTableAvgMed(const vector<Student> &students);
+void readStudentsFromFileVector(const string &filename, vector<Student> &students);
+void readStudentsFromFileList(const string &filename, list<Student> &students);
 bool compareStudents(const Student &student1, const Student &student2);
 string generateRandomName(int studentNumber);
 string generateRandomSurname(int studentNumber);
 int generateRandomMark();
 Student generateRandomStudent(int studentNumber, int numMarks);
-void saveStudentDataToFile(const string& filename, const list<Student>& students);
+void saveStudentDataToFileList(const string& filename, const list<Student>& students);
+void saveStudentDataToFileVector(const string& filename, const vector<Student>& students);
+
 
 
 #endif // FUNCTIONS_H_INCLUDED
