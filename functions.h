@@ -20,12 +20,17 @@ struct Student
     vector<int> marks; /**< A vector storing the student's individual marks. */
     float finalMarkAvg; /**< The average score of the student. */
     float finalMarkMed; /**< The average score of the student. */
+    float finalMark; /**< The average score of the student. */
 };
 
 // Functions
+int users_choice();
+int users_choice_Avg_Med();
+void getInput(Student &student);
+void getInputAuto(Student &student);
 float calculateFinalMarkAvg(const Student &student);
 float calculateFinalMarkMed(const Student &student);
-void printStudentTable(const list<Student> &students);
+void printStudentTable(const vector<Student> &students);
 void readStudentsFromFile(const string &filename, list<Student> &students);
 bool compareStudents(const Student &student1, const Student &student2);
 string generateRandomName(int studentNumber);
