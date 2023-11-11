@@ -475,6 +475,7 @@ void saveStudentDataToFileVector(const string &filename, const vector<Student> &
         for (int i = 1; i <= 15; ++i) {
             file << left << setw(9) << "ND" + to_string(i);
         }
+        file << "Egz." << endl;
 
         for (const Student& student : students) {
             file << left << setw(24) << student.name << setw(24) << student.surname;
