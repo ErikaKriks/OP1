@@ -27,6 +27,7 @@ struct Student
 int usersChoice();
 int usersChoiceAvgMed();
 int usersChoiceVectorList();
+int usersChoiceStrategy();
 void getInput(Student &student);
 void getInputAuto(Student &student);
 float calculateFinalMarkAvg(const Student &student);

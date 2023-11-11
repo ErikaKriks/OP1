@@ -43,6 +43,7 @@ int main() {
 
     int choice;
     int choice2;
+    int choice3;
     choice = usersChoice();
     cout << choice << endl;
 
@@ -160,6 +161,7 @@ int main() {
 
         if (choice2 == 1) {
         // List structure will be used.
+        choice3 = usersChoiceStrategy();
 
         for (int numStudents : numStudentsList) {
             // Data generation and saving
@@ -179,8 +181,13 @@ int main() {
             readStudentsFromFileList(filename, readStudents);
             auto endReading = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> categorizationTime = endReading - startReading;
-            
 
+            // Defining time variables used in both strategies
+            std::chrono::duration<double> readingTime;
+            std::chrono::duration<double> savingCategorizedTime;
+
+            if (choice3 == 1) {
+            // Strategy 1 - sorting students into two lists
             // Categorization
             auto startCategorization = std::chrono::high_resolution_clock::now();
             list<Student> failStudents;
@@ -210,7 +217,59 @@ int main() {
             saveStudentDataToFileList(filenamePass, passStudents);
             auto endSavingCategorized = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
+            }
 
+            else if (choice3 == 2) {
+            // Strategy 2 - using only one additional list
+            // Categorization
+            auto startCategorization = std::chrono::high_resolution_clock::now();
+            list<Student> failStudents;
+            // list<Student> passStudents;
+
+            // for (Student& student : readStudents) {
+            //     student.finalMark = calculateFinalMarkAvg(student); // You can use either Avg or Med function
+            //     if (student.finalMark < 5.0) {
+            //         failStudents.push_back(student);
+            //         readStudents.remove(student);
+            //     }
+            // }
+
+            for (auto it = readStudents.begin(); it != readStudents.end();) {
+            Student& student = *it;
+            student.finalMark = calculateFinalMarkAvg(student);
+
+                if (student.finalMark < 5.0) {
+                    failStudents.push_back(student);
+                    it = readStudents.erase(it);  // Erase and get the iterator to the next element
+                }
+                else {
+                    ++it;  // Move to the next element
+                }
+            }
+            
+            // Sort the failStudents and passStudents lists
+            failStudents.sort(compareStudents);
+            // passStudents.sort(compareStudents);
+            readStudents.sort(compareStudents);
+            auto endCategorization = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> readingTime = endCategorization - startCategorization;
+
+            // Saving categorized data
+            auto startSavingCategorized = std::chrono::high_resolution_clock::now();
+            string filenameFail = "students" + to_string(numStudents) + "_fail.txt";
+            string filenamePass = "students" + to_string(numStudents) + "_pass.txt";
+
+            saveStudentDataToFileList(filenameFail, failStudents);
+            // saveStudentDataToFileList(filenamePass, passStudents);
+            saveStudentDataToFileList(filenamePass, readStudents);
+            auto endSavingCategorized = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
+            }
+            else if (choice3 == 3){
+                cout << "This option is applicable only for VECTOR container type." << endl;
+            }
+
+            // Output
             cout << "Execution times for " << numStudents << " students:" << endl;
             cout << "Memory address of the data structure: " << &students << endl;
             cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
