@@ -82,6 +82,22 @@ int usersChoiceVectorList() {
     return n;
 }
 
+int usersChoiceStrategy() {
+    int n;
+    printf("Please, choose of the following options: \n");
+    printf("1 - Strategy number 1. Two containers will be used for  \n");
+    printf("2 - Strategy number 2. One container will be used for students' categorization.\n");
+    printf("3 - Strategy number 3 (applicable only for vector structure).\n");
+    cin >> n;
+
+    while (n > 3 || n < 1) {
+        printf("This choice is not defined. Please, try again.\n");
+        cin >> n;
+    }
+    
+    return n;
+}
+
 // Function to get input for a Student structure
 void getInput(Student &student) {
     cout << "Enter the student's first name: " << endl;
@@ -429,7 +445,7 @@ void saveStudentDataToFileList(const string &filename, const list<Student> &stud
         for (int i = 1; i <= 15; ++i) {
             file << left << setw(9) << "ND" + to_string(i);
         }
-        file << "Egz." << endl;
+       file << "Egz." << setw(9) << "Final" << endl;
 
         for (const Student& student : students) {
             file << left << setw(24) << student.name << setw(24) << student.surname;
@@ -437,6 +453,7 @@ void saveStudentDataToFileList(const string &filename, const list<Student> &stud
                 file << left << setw(9) << mark;
             }
             file << student.examMark << endl;
+            file << student.finalMark << endl;
         }
 
         file.close();
@@ -459,6 +476,7 @@ void saveStudentDataToFileVector(const string &filename, const vector<Student> &
             file << left << setw(9) << "ND" + to_string(i);
         }
         file << "Egz." << endl;
+        file << "Final." << endl;
 
         for (const Student& student : students) {
             file << left << setw(24) << student.name << setw(24) << student.surname;
@@ -466,6 +484,7 @@ void saveStudentDataToFileVector(const string &filename, const vector<Student> &
                 file << left << setw(9) << mark;
             }
             file << student.examMark << endl;
+            file << student.finalMark << endl;
         }
 
         file.close();
