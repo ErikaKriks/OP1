@@ -445,15 +445,14 @@ void saveStudentDataToFileList(const string &filename, const list<Student> &stud
         for (int i = 1; i <= 15; ++i) {
             file << left << setw(9) << "ND" + to_string(i);
         }
-       file << left << setw(9) << "Egz." << left << setw(9) << "Final" << endl;
+       file << "Egz." << endl;
 
         for (const Student& student : students) {
             file << left << setw(24) << student.name << setw(24) << student.surname;
             for (int mark : student.marks) {
                 file << left << setw(9) << mark;
             }
-            // file << student.examMark << left << setw(9) << student.finalMark << endl;
-            file << left << setw(9) << student.examMark << left << setw(9) << student.finalMark << endl;
+            file << student.examMark << endl;
         }
 
         file.close();
@@ -476,8 +475,6 @@ void saveStudentDataToFileVector(const string &filename, const vector<Student> &
         for (int i = 1; i <= 15; ++i) {
             file << left << setw(9) << "ND" + to_string(i);
         }
-        file << "Egz." << endl;
-        file << "Final." << endl;
 
         for (const Student& student : students) {
             file << left << setw(24) << student.name << setw(24) << student.surname;
@@ -485,7 +482,6 @@ void saveStudentDataToFileVector(const string &filename, const vector<Student> &
                 file << left << setw(9) << mark;
             }
             file << student.examMark << endl;
-            file << student.finalMark << endl;
         }
 
         file.close();

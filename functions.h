@@ -19,8 +19,8 @@ struct Student
     int examMark; /**< The number of marks the student has. The mark of exam.*/
     vector<int> marks; /**< A vector storing the student's individual marks. */
     float finalMarkAvg; /**< The average score of the student. */
-    float finalMarkMed; /**< The average score of the student. */
-    float finalMark; /**< The average score of the student. */
+    float finalMarkMed; /**< The median score of the student. */
+    float finalMark; /**< The score of the student. */
 };
 
 // Functions
