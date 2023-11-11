@@ -157,7 +157,7 @@ int main() {
     {
         choice2 = usersChoiceVectorList();
         // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-        vector<int> numStudentsList = {10, 100}; // For testing purposes
+        vector<int> numStudentsList = {10}; // For testing purposes
 
         if (choice2 == 1) {
         // List structure will be used.
@@ -195,6 +195,7 @@ int main() {
 
             for (const Student& student : readStudents) {
                 float finalMark = calculateFinalMarkAvg(student); // You can use either Avg or Med function
+                cout << finalMark << endl;
                 if (finalMark < 5.0) {
                     failStudents.push_back(student);
                 } else {
@@ -224,19 +225,11 @@ int main() {
             // Categorization
             auto startCategorization = std::chrono::high_resolution_clock::now();
             list<Student> failStudents;
-            // list<Student> passStudents;
-
-            // for (Student& student : readStudents) {
-            //     student.finalMark = calculateFinalMarkAvg(student); // You can use either Avg or Med function
-            //     if (student.finalMark < 5.0) {
-            //         failStudents.push_back(student);
-            //         readStudents.remove(student);
-            //     }
-            // }
 
             for (auto it = readStudents.begin(); it != readStudents.end();) {
             Student& student = *it;
             student.finalMark = calculateFinalMarkAvg(student);
+            cout << student.finalMark << endl;
 
                 if (student.finalMark < 5.0) {
                     failStudents.push_back(student);
