@@ -157,8 +157,8 @@ int main() {
     else if (choice == 3)
     {
         choice2 = usersChoiceVectorList();
-        // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-        vector<int> numStudentsList = {10, 100}; // For testing purposes
+        vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
+        // vector<int> numStudentsList = {10, 100}; // For testing purposes
         
         // Defining time variables used in both strategies
         std::chrono::duration<double> categorizationTime;
@@ -362,8 +362,8 @@ int main() {
                 }
 
                 // Sort the Students vector
-                // sort(failStudents.begin(), failStudents.end(), compareStudents);
-                // sort(readStudents.begin(), readStudents.end(), compareStudents);
+                sort(failStudents.begin(), failStudents.end(), compareStudents);
+                sort(readStudents.begin(), readStudents.end(), compareStudents);
                 auto endCategorization = std::chrono::high_resolution_clock::now();
                 categorizationTime = endCategorization - startCategorization;
 
