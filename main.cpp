@@ -158,7 +158,7 @@ int main() {
     {
         choice2 = usersChoiceVectorList();
         // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-        vector<int> numStudentsList = {10, 100, 10000}; // For testing purposes
+        vector<int> numStudentsList = {10, 100}; // For testing purposes
         
         // Defining time variables used in both strategies
         std::chrono::duration<double> categorizationTime;
@@ -190,9 +190,6 @@ int main() {
                 auto endReading = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double> readingTime = endReading - startReading;
 
-                // Defining time variables used in both strategies
-                // std::chrono::duration<double> categorizationTime;
-                // std::chrono::duration<double> savingCategorizedTime;
 
                 if (choice3 == 1)
                 {
