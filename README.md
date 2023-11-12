@@ -74,36 +74,16 @@ Remember to customize these files according to your project structure and needs.
 * Sorting students based on the Final Mark into two groups - failed and passed.
 * Experiment measuring time of each process performed.
 
-#### Results of the experiment
-##### Execution times for 1 000 students:
-Data generation and saving: 0.023 seconds
-<br>Reading: 0.002 seconds
-<br>Categorization: 0.015 seconds
-<br>Saving categorized data: 0.009 seconds
 
-##### Execution times for 10 000 students:
-Data generation and saving: 0.095 seconds
-<br>Reading: 0.016 seconds
-<br>Categorization: 0.090 seconds
-<br>Saving categorized data: 0.054 seconds
+#### Results of the Experiment
 
-##### Execution times for 100 000 students:
-Data generation and saving: 0.832 seconds
-<br>Reading: 0.187 seconds
-<br>Categorization: 0.893 seconds
-<br>Saving categorized data: 0.528 seconds
+| Operation                   | 1,000 Students      | 10,000 Students     | 100,000 Students    | 1,000,000 Students  | 10,000,000 Students |
+| --------------------------- | ------------------- | -------------------- | ------------------- | -------------------- | -------------------- |
+| Data Generation and Saving  | 0.023 seconds       | 0.095 seconds       | 0.832 seconds       | 8.452 seconds       | 91.601 seconds      |
+| Reading                     | 0.002 seconds       | 0.016 seconds       | 0.187 seconds       | 2.263 seconds       | 26.528 seconds      |
+| Categorization              | 0.015 seconds       | 0.090 seconds       | 0.893 seconds       | 9.152 seconds       | 93.732 seconds      |
+| Saving Categorized Data     | 0.009 seconds       | 0.054 seconds       | 0.528 seconds       | 5.243 seconds       | 58.0112 seconds     |
 
-##### Execution times for 1 000 000 students:
-Data generation and saving: 8.452 seconds
-<br>Reading: 2.263 seconds
-<br>Categorization: 9.152 seconds
-<br>Saving categorized data: 5.243 seconds
-
-##### Execution times for 10 000 000 students:
-Data generation and saving: 91.601 seconds
-<br>Reading: 26.528 seconds
-<br>Categorization: 93.732 seconds
-<br>Saving categorized data: 58.0112 seconds
 
 ### [v.03](https://github.com/ErikaKriks/project1/releases/tag/v.03)
 **main.cpp** - the script for students' final mark calculations.
@@ -188,5 +168,7 @@ Data Categorization
 | 10 000 000 | 25.663s | - | 4.483s |
 
 Strategy 2 uses erase method, which is computationally expensive as it seems - O(n) complexity.
+Strategy 3 is the most efficient one for Vector container, Strategy 2 improved program, using List container.
+
 
 
