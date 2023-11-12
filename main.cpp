@@ -216,7 +216,7 @@ int main() {
                     failStudents.sort(compareStudents);
                     passStudents.sort(compareStudents);
                     auto endCategorization = std::chrono::high_resolution_clock::now();
-                    readingTime = endCategorization - startCategorization;
+                    categorizationTime = endCategorization - startCategorization;
 
                     // Saving categorized data
                     auto startSavingCategorized = std::chrono::high_resolution_clock::now();
@@ -362,8 +362,8 @@ int main() {
                 }
 
                 // Sort the Students vector
-                sort(failStudents.begin(), failStudents.end(), compareStudents);
-                sort(readStudents.begin(), readStudents.end(), compareStudents);
+                // sort(failStudents.begin(), failStudents.end(), compareStudents);
+                // sort(readStudents.begin(), readStudents.end(), compareStudents);
                 auto endCategorization = std::chrono::high_resolution_clock::now();
                 categorizationTime = endCategorization - startCategorization;
 
