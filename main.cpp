@@ -382,7 +382,15 @@ int main() {
                 auto endSavingCategorized = std::chrono::high_resolution_clock::now();
                 std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
             }
-            
+
+            else if (choice3 == 3) {
+                /* code */
+            }
+
+            else {
+                cout << "Invalid choice. Exiting..." << endl;
+                return 1;
+            }
 
             // Output
             cout << "Execution times for " << numStudents << " students:" << endl;
@@ -398,7 +406,7 @@ int main() {
         else
         {
             cout << "Invalid choice. Exiting..." << endl;
-            return 1; // Return a non-zero value to indicate an error
+            return 1; 
         }        
     }
 }
