@@ -36,6 +36,7 @@ using std::chrono::high_resolution_clock;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 using std::chrono::seconds;
+using std::stable_partition;
 
 
 
@@ -157,7 +158,11 @@ int main() {
     {
         choice2 = usersChoiceVectorList();
         // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-        vector<int> numStudentsList = {10}; // For testing purposes
+        vector<int> numStudentsList = {10, 100, 10000}; // For testing purposes
+        
+        // Defining time variables used in both strategies
+        std::chrono::duration<double> categorizationTime;
+        std::chrono::duration<double> savingCategorizedTime;
 
         if (choice2 == 1)
         {
@@ -183,11 +188,11 @@ int main() {
                 list<Student> readStudents;
                 readStudentsFromFileList(filename, readStudents);
                 auto endReading = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double> categorizationTime = endReading - startReading;
+                std::chrono::duration<double> readingTime = endReading - startReading;
 
                 // Defining time variables used in both strategies
-                std::chrono::duration<double> readingTime;
-                std::chrono::duration<double> savingCategorizedTime;
+                // std::chrono::duration<double> categorizationTime;
+                // std::chrono::duration<double> savingCategorizedTime;
 
                 if (choice3 == 1)
                 {
@@ -253,7 +258,7 @@ int main() {
                     failStudents.sort(compareStudents);
                     readStudents.sort(compareStudents);
                     auto endCategorization = std::chrono::high_resolution_clock::now();
-                    readingTime = endCategorization - startCategorization;
+                    categorizationTime = endCategorization - startCategorization;
 
                     // Saving categorized data
                     auto startSavingCategorized = std::chrono::high_resolution_clock::now();
@@ -287,7 +292,6 @@ int main() {
             // Vector structure will be used.
             choice3 = usersChoiceStrategy();
 
-
         for (int numStudents : numStudentsList) {
             // Data generation and saving
             auto startGeneration = std::chrono::high_resolution_clock::now();
@@ -305,11 +309,7 @@ int main() {
             vector<Student> readStudents;
             readStudentsFromFileVector(filename, readStudents);
             auto endReading = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> categorizationTime = endReading - startReading;
-
-            // Defining time variables used in both strategies
-            std::chrono::duration<double> readingTime;
-            std::chrono::duration<double> savingCategorizedTime;
+            std::chrono::duration<double> readingTime = endReading - startReading;
             
             if (choice3 == 1) {
                 // Categorization
@@ -330,7 +330,7 @@ int main() {
                 sort(failStudents.begin(), failStudents.end(), compareStudents);
                 sort(passStudents.begin(), passStudents.end(), compareStudents);
                 auto endCategorization = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double> readingTime = endCategorization - startCategorization;
+                categorizationTime = endCategorization - startCategorization;
 
                 // Saving categorized data
                 auto startSavingCategorized = std::chrono::high_resolution_clock::now();
@@ -340,8 +340,9 @@ int main() {
                 saveStudentDataToFileVector(filenameFail, failStudents);
                 saveStudentDataToFileVector(filenamePass, passStudents);
                 auto endSavingCategorized = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
+                savingCategorizedTime = endSavingCategorized - startSavingCategorized;
             }
+
             else if (choice3 == 2) {
                 // Categorization
                 auto startCategorization = std::chrono::high_resolution_clock::now();
@@ -355,7 +356,7 @@ int main() {
                     if (student.finalMark < 5.0)
                     {
                         failStudents.push_back(student);
-                        it = readStudents.erase(it); // Erase and get the iterator to the next element
+                        it = readStudents.erase(it); 
                     }
                     else
                     {
@@ -363,11 +364,11 @@ int main() {
                     }
                 }
 
-                // Sort the failStudents vector
+                // Sort the Students vector
                 sort(failStudents.begin(), failStudents.end(), compareStudents);
                 sort(readStudents.begin(), readStudents.end(), compareStudents);
                 auto endCategorization = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double> readingTime = endCategorization - startCategorization;
+                categorizationTime = endCategorization - startCategorization;
 
                 // Saving categorized data
                 auto startSavingCategorized = std::chrono::high_resolution_clock::now();
@@ -380,11 +381,39 @@ int main() {
                 saveStudentDataToFileVector(filenamePass, readStudents);
 
                 auto endSavingCategorized = std::chrono::high_resolution_clock::now();
-                std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
+                savingCategorizedTime = endSavingCategorized - startSavingCategorized;
             }
 
             else if (choice3 == 3) {
-                /* code */
+                // Strategy 3
+                // Categorization using std::stable_partition
+                auto startCategorization = std::chrono::high_resolution_clock::now();
+                vector<Student> failStudents;
+
+                // Stable partition based on the failing condition
+                auto partitionPoint = stable_partition(readStudents.begin(), readStudents.end(),
+                                                    [](const Student& student) {
+                                                        return calculateFinalMarkAvg(student) < 5.0;
+                                                    });
+
+                // Move failing students to the failStudents vector
+                failStudents.assign(readStudents.begin(), partitionPoint);
+
+                // Erase failing students from the readStudents vector
+                readStudents.erase(readStudents.begin(), partitionPoint);
+
+                auto endCategorization = std::chrono::high_resolution_clock::now();
+                categorizationTime = endCategorization - startCategorization;
+
+                // Saving categorized data
+                auto startSavingCategorized = std::chrono::high_resolution_clock::now();
+                string filenameFail = "students" + to_string(numStudents) + "_fail.txt";
+                string filenamePass = "students" + to_string(numStudents) + "_pass.txt";
+
+                saveStudentDataToFileVector(filenameFail, failStudents);
+                saveStudentDataToFileVector(filenamePass, readStudents);
+                auto endSavingCategorized = std::chrono::high_resolution_clock::now();
+                savingCategorizedTime = endSavingCategorized - startSavingCategorized;
             }
 
             else {
