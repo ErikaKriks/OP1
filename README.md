@@ -17,8 +17,12 @@ Make sure you have the following software installed on your system:
 3. **Install C/C++ Extension**
 4. **Build and Run:**
     * Open the terminal in VSCode (View > Terminal or `Ctrl + ``) and navigate to your project directory.
-    * Run the build command to compile your C++ program: g++ -std=c++11 main.cpp functions.cpp -o myprogram
-    * Execute the program:./myprogram
+    * Run the build command to compile your C++ program: 
+    ```bash
+    g++ -std=c++11 main.cpp functions.cpp -o myprogram
+    * Execute the program:
+    ```bash
+    ./myprogram
 
 ## Visual Studio Code Configuration
 
