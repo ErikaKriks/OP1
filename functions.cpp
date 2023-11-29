@@ -211,30 +211,21 @@ Student generateRandomStudent(int studentNumber, int numMarks) {
     return student;
 }
 
-// Function to save student data to a file
 void saveStudentDataToFile(const string& filename, const vector<Student>& students) {
     ofstream file(filename);
 
     if (file.is_open()) {
-        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde";
-        for (int i = 1; i <= 15; ++i) {
-            file << left << setw(9) << "ND" + to_string(i);
-        }
-        file << "Egz." << endl;
+        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde" << setw(24) << "Final Mark" << endl;
 
         for (const Student& student : students) {
-            file << left << setw(24) << student.name << setw(24) << student.surname;
-            for (int mark : student.marks) {
-                file << left << setw(9) << mark;
-            }
-            file << student.examMark << endl;
+            file << left << setw(24) << student.name << setw(24) << student.surname << setw(24) << student.finalMarkAvg << endl;
         }
-
         file.close();
     } else {
         cout << "Error: Could not open file for writing." << endl;
     }
 }
+
 
 bool fileExists(const string& filename) {
     ifstream file(filename.c_str());
