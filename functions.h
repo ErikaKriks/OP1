@@ -31,6 +31,8 @@ string generateRandomSurname(int studentNumber);
 int generateRandomMark();
 Student generateRandomStudent(int studentNumber, int numMarks);
 void saveStudentDataToFile(const string& filename, const vector<Student>& students);
+bool fileExists(const string& filename);
+void generateStudentDataToFile(const string& filename, int numStudents, int numMarks);
 
 
 #endif // FUNCTIONS_H_INCLUDED

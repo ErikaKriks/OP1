@@ -39,8 +39,32 @@ using std::chrono::seconds;
 
 
 int main() {
-    vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-    // vector<int> numStudentsList = {10, 100}; // For testing purposes
+    // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
+    vector<int> numStudentsList = {10, 100}; // For testing purposes
+    int numMarks = 15;
+
+    // Checking if students file already exists
+    for (int numStudents : numStudentsList) {
+        string filename = "students" + to_string(numStudents) + ".txt";
+        if (fileExists(filename)) {
+            cout << filename << " exists! Experiment will be conducted." << endl;
+        } else {
+            cout << filename << " will be generated." << endl;
+            
+            // Data generation and saving
+        //     auto startGeneration = std::chrono::high_resolution_clock::now();
+        //     vector<Student> students;
+        //     for (int i = 1; i <= numStudents; ++i) {
+        //     students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
+        // }
+        //     string filename = "students" + to_string(numStudents) + ".txt";
+        //     saveStudentDataToFile(filename, students);
+        //     auto endGeneration = std::chrono::high_resolution_clock::now();
+        //     std::chrono::duration<double> generationTime = endGeneration - startGeneration;
+        // }
+        generateStudentDataToFile(filename, numStudents, numMarks);
+        }
+    }
 
 
     for (int numStudents : numStudentsList) {

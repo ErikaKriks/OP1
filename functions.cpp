@@ -235,3 +235,38 @@ void saveStudentDataToFile(const string& filename, const vector<Student>& studen
         cout << "Error: Could not open file for writing." << endl;
     }
 }
+
+bool fileExists(const string& filename) {
+    ifstream file(filename.c_str());
+    return file.good();
+}
+
+// Function to save student data to a file
+void generateStudentDataToFile(const string& filename, int numStudents, int numMarks) {
+    ofstream file(filename);
+
+    if (file.is_open()) {
+        // First line of the file
+        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde";
+        for (int i = 1; i <= numMarks; ++i) {
+            file << left << setw(9) << "ND" + to_string(i);
+        }
+        file << "Egz." << endl;
+
+        for (int i = 1; i <= numStudents; ++i) {
+            string name = generateRandomName(i);
+            string surname = generateRandomSurname(i);
+            int examMark = generateRandomMark();
+
+            file << left << setw(24) << name << setw(24) << surname;
+            for (int j = 0; j < numMarks; ++j) {
+                file << left << setw(9) << generateRandomMark();
+            }
+            file << examMark << endl;
+        }
+
+        file.close();
+    } else {
+        cout << "Error: Could not open file for writing." << endl;
+    }
+}
