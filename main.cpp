@@ -42,43 +42,39 @@ int main() {
     // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
     vector<int> numStudentsList = {10, 100}; // For testing purposes
     int numMarks = 15;
+    int sortOption = 0;
+    std::chrono::duration<double> generationTime = std::chrono::duration<double>::zero();
+
+    sortOption = getUserSortOption();
 
     // Checking if students file already exists
     for (int numStudents : numStudentsList) {
         string filename = "students" + to_string(numStudents) + ".txt";
         if (fileExists(filename)) {
             cout << filename << " exists! Experiment will be conducted." << endl;
-        } else {
+            
+            // File generation file is set to 0
+            // std::chrono::duration<double> generationTime = std::chrono::duration<double>::zero();
+        } 
+        else {
             cout << filename << " will be generated." << endl;
             
             // Data generation and saving
-        //     auto startGeneration = std::chrono::high_resolution_clock::now();
-        //     vector<Student> students;
-        //     for (int i = 1; i <= numStudents; ++i) {
-        //     students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
-        // }
-        //     string filename = "students" + to_string(numStudents) + ".txt";
-        //     saveStudentDataToFile(filename, students);
-        //     auto endGeneration = std::chrono::high_resolution_clock::now();
-        //     std::chrono::duration<double> generationTime = endGeneration - startGeneration;
-        // }
-        generateStudentDataToFile(filename, numStudents, numMarks);
+            auto startGeneration = std::chrono::high_resolution_clock::now();
+            generateStudentDataToFile(filename, numStudents, numMarks);
+            auto endGeneration = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> generationTime = endGeneration - startGeneration;
+
+            cout << "Execution times for " << numStudents << " students:" << endl;
+            cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
         }
     }
-
+    cout << "------------------------" << endl;
 
     for (int numStudents : numStudentsList) {
-        // Data generation and saving
-        auto startGeneration = std::chrono::high_resolution_clock::now();
-        vector<Student> students;
-        for (int i = 1; i <= numStudents; ++i) {
-            students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
-        }
+        
         string filename = "students" + to_string(numStudents) + ".txt";
-        saveStudentDataToFile(filename, students);
-        auto endGeneration = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> generationTime = endGeneration - startGeneration;
-
+        
         // Reading data
         auto startReading = std::chrono::high_resolution_clock::now();
         vector<Student> readStudents;
@@ -92,9 +88,10 @@ int main() {
         vector<Student> failStudents;
         vector<Student> passStudents;
 
-        for (const Student& student : readStudents) {
-            float finalMark = calculateFinalMarkAvg(student); // You can use either Avg or Med function
-            if (finalMark < 5.0) {
+        for (Student& student : readStudents) {
+            student.finalMarkAvg = calculateFinalMarkAvg(student); // Final mark can be generated using Avg or Med
+            student.finalMarkMed = calculateFinalMarkMed(student);
+            if (student.finalMarkAvg < 5.0) {
                 failStudents.push_back(student);
             } else {
                 passStudents.push_back(student);
@@ -102,8 +99,8 @@ int main() {
         }
 
         // Sort the failStudents and passStudents vectors
-        sort(failStudents.begin(), failStudents.end(), compareStudents);
-        sort(passStudents.begin(), passStudents.end(), compareStudents);
+        compareStudents(failStudents, sortOption);
+        compareStudents(passStudents, sortOption);
         auto endCategorization = std::chrono::high_resolution_clock::now();
         std::chrono::duration<double> readingTime = endCategorization - startCategorization;
 
@@ -118,8 +115,8 @@ int main() {
         std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
 
         cout << "Execution times for " << numStudents << " students:" << endl;
-        cout << "Memory address of the data structure: " << &students << endl;
-        cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
+        // cout << "Memory address of the data structure: " << &students << endl;
+        // cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
         cout << "Reading: " << readingTime.count() << " seconds" << endl;
         cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
         cout << "Saving categorized data: " << savingCategorizedTime.count() << " seconds" << endl;

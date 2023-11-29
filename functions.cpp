@@ -98,15 +98,49 @@ void printStudentTable(const vector<Student> &students)
 
 
 // Comparison function for sorting students by name and surname
-bool compareStudents(const Student &student1, const Student &student2) {
-    // Compare by name
-    int nameComparison = student1.name.compare(student2.name);
-    if (nameComparison != 0) {
-        return nameComparison < 0;
+void compareStudents(vector<Student> &students, int sortBy) {
+    if (sortBy == 0) { // Sort by name
+        return sort(students.begin(), students.end(), compareByName);
+    } else if (sortBy == 1) { // Sort by surname
+        return sort(students.begin(), students.end(), compareBySurname);
+    } else if (sortBy == 2) { // Sort by final mark average
+        return sort(students.begin(), students.end(), compareByFinalMarkAvg);
+    } else if (sortBy == 3) { // Sort by final mark median
+        return sort(students.begin(), students.end(), compareByFinalMarkMedian);
     }
-    
-    // If names are equal, compare by surname
-    return student1.surname.compare(student2.surname) < 0;
+}
+
+// Comparator for sorting by name
+bool compareByName(const Student &student1, const Student &student2) {
+    return student1.name < student2.name;
+}
+
+// Comparator for sorting by surname
+bool compareBySurname(const Student &student1, const Student &student2) {
+    return student1.surname < student2.surname;
+}
+
+// Comparator for sorting by final mark average
+bool compareByFinalMarkAvg(const Student &student1, const Student &student2) {
+    return student1.finalMarkAvg < student2.finalMarkAvg;
+}
+
+// Comparator for sorting by final mark median
+bool compareByFinalMarkMedian(const Student &student1, const Student &student2) {
+    return student1.finalMarkMed < student2.finalMarkMed;
+}
+
+
+int getUserSortOption() {
+    int sortOption;
+    cout << "Choose sorting option:" << std::endl;
+    cout << "0: Sort by name" << std::endl;
+    cout << "1: Sort by surname" << std::endl;
+    cout << "2: Sort by final mark average" << std::endl;
+    cout << "3: Sort by final mark median" << std::endl;
+    cout << "Enter your choice (0-3): ";
+    cin >> sortOption;
+    return sortOption;
 }
 
 void readStudentsFromFile(const string &filename, vector<Student> &students)
@@ -215,10 +249,10 @@ void saveStudentDataToFile(const string& filename, const vector<Student>& studen
     ofstream file(filename);
 
     if (file.is_open()) {
-        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde" << setw(24) << "Final Mark" << endl;
+        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde" << setw(24) << "Final Mark Avg" << setw(24) << "Final Mark Med" << endl;
 
         for (const Student& student : students) {
-            file << left << setw(24) << student.name << setw(24) << student.surname << setw(24) << student.finalMarkAvg << endl;
+            file << left << setw(24) << student.name << setw(24) << student.surname << setw(24) << student.finalMarkAvg << setw(24) << student.finalMarkMed << endl;
         }
         file.close();
     } else {
