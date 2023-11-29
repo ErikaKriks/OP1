@@ -39,12 +39,10 @@ using std::chrono::seconds;
 
 
 int main() {
-    // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-    vector<int> numStudentsList = {10, 100}; // For testing purposes
+    vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
+    // vector<int> numStudentsList = {10, 100}; // For testing purposes
     int numMarks = 15;
     int sortOption = 0;
-    std::chrono::duration<double> generationTime = std::chrono::duration<double>::zero();
-
     sortOption = getUserSortOption();
 
     // Checking if students file already exists
@@ -52,9 +50,6 @@ int main() {
         string filename = "students" + to_string(numStudents) + ".txt";
         if (fileExists(filename)) {
             cout << filename << " exists! Experiment will be conducted." << endl;
-            
-            // File generation file is set to 0
-            // std::chrono::duration<double> generationTime = std::chrono::duration<double>::zero();
         } 
         else {
             cout << filename << " will be generated." << endl;
@@ -115,8 +110,6 @@ int main() {
         std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
 
         cout << "Execution times for " << numStudents << " students:" << endl;
-        // cout << "Memory address of the data structure: " << &students << endl;
-        // cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
         cout << "Reading: " << readingTime.count() << " seconds" << endl;
         cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
         cout << "Saving categorized data: " << savingCategorizedTime.count() << " seconds" << endl;
