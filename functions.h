@@ -27,6 +27,7 @@ struct Student
 int usersChoice();
 int usersChoiceAvgMed();
 int usersChoiceVectorList();
+int getUserSortOption();
 void getInput(Student &student);
 void getInputAuto(Student &student);
 float calculateFinalMarkAvg(const Student &student);
@@ -35,13 +36,22 @@ void printStudentTable(const vector<Student> &students);
 void printStudentTableAvgMed(const vector<Student> &students);
 void readStudentsFromFileVector(const string &filename, vector<Student> &students);
 void readStudentsFromFileList(const string &filename, list<Student> &students);
-bool compareStudents(const Student &student1, const Student &student2);
+bool compareStudentsSimple(const Student &student1, const Student &student2);
 string generateRandomName(int studentNumber);
 string generateRandomSurname(int studentNumber);
 int generateRandomMark();
 Student generateRandomStudent(int studentNumber, int numMarks);
 void saveStudentDataToFileList(const string& filename, const list<Student>& students);
-void saveStudentDataToFileVector(const string& filename, const vector<Student>& students);
+bool fileExists(const string& filename);
+void generateStudentDataToFile(const string& filename, int numStudents, int numMarks);
+void compareStudents(vector<Student> &students, int sortBy);
+void compareStudentsList(list<Student>& students, int sortBy);
+bool compareByName(const Student &student1, const Student &student2);
+bool compareBySurname(const Student &student1, const Student &student2);
+bool compareByFinalMarkAvg(const Student &student1, const Student &student2);
+bool compareByFinalMarkMedian(const Student &student1, const Student &student2);
+void saveStudentDataToFile(const string& filename, const vector<Student>& students);
+void printStudent(const Student& student);
 
 
 

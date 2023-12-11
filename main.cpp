@@ -140,7 +140,7 @@ int main() {
         }
 
         // Sort the students vector
-        sort(students.begin(), students.end(), compareStudents);
+        sort(students.begin(), students.end(), compareStudentsSimple);
 
         // Displaying a table of results
         printStudentTableAvgMed(students);
@@ -155,23 +155,40 @@ int main() {
     else if (choice == 3)
     {
         choice2 = usersChoiceVectorList();
-        // vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
-        vector<int> numStudentsList = {10, 100}; // For testing purposes
+        vector<int> numStudentsList = {1000, 10000, 100000, 1000000, 10000000};
+        // vector<int> numStudentsList = {10, 100}; // For testing purposes
+        int numMarks = 15;
+        int sortOption = 0;
+        sortOption = getUserSortOption();
+
+        // Checking if students file already exists
+        for (int numStudents : numStudentsList) {
+            string filename = "students" + to_string(numStudents) + ".txt";
+            if (fileExists(filename)) {
+                cout << filename << " exists! Experiment will be conducted." << endl;
+            } 
+            else {
+                cout << filename << " will be generated." << endl;
+                
+                // Data generation and saving
+                auto startGeneration = std::chrono::high_resolution_clock::now();
+                generateStudentDataToFile(filename, numStudents, numMarks);
+                auto endGeneration = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> generationTime = endGeneration - startGeneration;
+
+                cout << "Execution times for " << numStudents << " students:" << endl;
+                cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
+            }
+        }
+        cout << "------------------------" << endl;
+
 
         if (choice2 == 1) {
         // List structure will be used.
 
         for (int numStudents : numStudentsList) {
-            // Data generation and saving
-            auto startGeneration = std::chrono::high_resolution_clock::now();
-            list<Student> students;
-            for (int i = 1; i <= numStudents; ++i) {
-                students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
-            }
+            
             string filename = "students" + to_string(numStudents) + ".txt";
-            saveStudentDataToFileList(filename, students);
-            auto endGeneration = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> generationTime = endGeneration - startGeneration;
 
             // Reading data
             auto startReading = std::chrono::high_resolution_clock::now();
@@ -186,18 +203,19 @@ int main() {
             list<Student> failStudents;
             list<Student> passStudents;
 
-            for (const Student& student : readStudents) {
-                float finalMark = calculateFinalMarkAvg(student); // You can use either Avg or Med function
-                if (finalMark < 5.0) {
-                    failStudents.push_back(student);
-                } else {
-                    passStudents.push_back(student);
+            for (Student& student : readStudents) {
+                    student.finalMarkAvg = calculateFinalMarkAvg(student); // Final mark can be generated using Avg or Med
+                    student.finalMarkMed = calculateFinalMarkMed(student);
+                    if (student.finalMarkAvg < 5.0) {
+                        failStudents.push_back(student);
+                    } else {
+                        passStudents.push_back(student);
+                    }
                 }
-            }
             
-            // Sort the failStudents and passStudents lists
-            failStudents.sort(compareStudents);
-            passStudents.sort(compareStudents);
+            /// Sort the failStudents and passStudents vectors
+            compareStudentsList(failStudents, sortOption);
+            compareStudentsList(passStudents, sortOption);
             auto endCategorization = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> readingTime = endCategorization - startCategorization;
 
@@ -212,12 +230,10 @@ int main() {
             std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
 
             cout << "Execution times for " << numStudents << " students:" << endl;
-            cout << "Memory address of the data structure: " << &students << endl;
-            cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
-            cout << "Reading: " << readingTime.count() << " seconds" << endl;
-            cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
-            cout << "Saving categorized data: " << savingCategorizedTime.count() << " seconds" << endl;
-            cout << "------------------------" << endl;
+                cout << "Reading: " << readingTime.count() << " seconds" << endl;
+                cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
+                cout << "Saving categorized data: " << savingCategorizedTime.count() << " seconds" << endl;
+                cout << "------------------------" << endl;
         }
 
         return 0;
@@ -225,69 +241,59 @@ int main() {
 
 
         else if (choice2 == 0) {
-            // Vector structure will be used.
+         // Vector structure will be used.
 
+            for (int numStudents : numStudentsList) {
+                
+                string filename = "students" + to_string(numStudents) + ".txt";
+                
+                // Reading data
+                auto startReading = std::chrono::high_resolution_clock::now();
+                vector<Student> readStudents;
+                readStudentsFromFileVector(filename, readStudents);
+                auto endReading = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> categorizationTime = endReading - startReading;
+                
 
-        for (int numStudents : numStudentsList) {
-            // Data generation and saving
-            auto startGeneration = std::chrono::high_resolution_clock::now();
-            vector<Student> students;
-            for (int i = 1; i <= numStudents; ++i) {
-                students.push_back(generateRandomStudent(i, 15)); // 15 random individual marks
-            }
-            string filename = "students" + to_string(numStudents) + ".txt";
-            saveStudentDataToFileVector(filename, students);
-            auto endGeneration = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> generationTime = endGeneration - startGeneration;
+                // Categorization
+                auto startCategorization = std::chrono::high_resolution_clock::now();
+                vector<Student> failStudents;
+                vector<Student> passStudents;
 
-            // Reading data
-            auto startReading = std::chrono::high_resolution_clock::now();
-            vector<Student> readStudents;
-            readStudentsFromFileVector(filename, readStudents);
-            auto endReading = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> categorizationTime = endReading - startReading;
-            
-
-            // Categorization
-            auto startCategorization = std::chrono::high_resolution_clock::now();
-            vector<Student> failStudents;
-            vector<Student> passStudents;
-
-            for (const Student& student : readStudents) {
-                float finalMark = calculateFinalMarkAvg(student); // You can use either Avg or Med function
-                if (finalMark < 5.0) {
-                    failStudents.push_back(student);
-                } else {
-                    passStudents.push_back(student);
+                for (Student& student : readStudents) {
+                    student.finalMarkAvg = calculateFinalMarkAvg(student); // Final mark can be generated using Avg or Med
+                    student.finalMarkMed = calculateFinalMarkMed(student);
+                    if (student.finalMarkAvg < 5.0) {
+                        failStudents.push_back(student);
+                    } else {
+                        passStudents.push_back(student);
+                    }
                 }
+
+                // Sort the failStudents and passStudents vectors
+                compareStudents(failStudents, sortOption);
+                compareStudents(passStudents, sortOption);
+                auto endCategorization = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> readingTime = endCategorization - startCategorization;
+
+                // Saving categorized data
+                auto startSavingCategorized = std::chrono::high_resolution_clock::now();
+                string filenameFail = "students" + to_string(numStudents) + "_fail.txt";
+                string filenamePass = "students" + to_string(numStudents) + "_pass.txt";
+
+                saveStudentDataToFile(filenameFail, failStudents);
+                saveStudentDataToFile(filenamePass, passStudents);
+                auto endSavingCategorized = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
+
+                cout << "Execution times for " << numStudents << " students:" << endl;
+                cout << "Reading: " << readingTime.count() << " seconds" << endl;
+                cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
+                cout << "Saving categorized data: " << savingCategorizedTime.count() << " seconds" << endl;
+                cout << "------------------------" << endl;
             }
 
-            // Sort the failStudents and passStudents vectors
-            sort(failStudents.begin(), failStudents.end(), compareStudents);
-            sort(passStudents.begin(), passStudents.end(), compareStudents);
-            auto endCategorization = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> readingTime = endCategorization - startCategorization;
-
-            // Saving categorized data
-            auto startSavingCategorized = std::chrono::high_resolution_clock::now();
-            string filenameFail = "students" + to_string(numStudents) + "_fail.txt";
-            string filenamePass = "students" + to_string(numStudents) + "_pass.txt";
-
-            saveStudentDataToFileVector(filenameFail, failStudents);
-            saveStudentDataToFileVector(filenamePass, passStudents);
-            auto endSavingCategorized = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> savingCategorizedTime = endSavingCategorized - startSavingCategorized;
-
-            cout << "Execution times for " << numStudents << " students:" << endl;
-            cout << "Memory address of the data structure: " << &students << endl;
-            cout << "Data generation and saving: " << generationTime.count() << " seconds" << endl;
-            cout << "Reading: " << readingTime.count() << " seconds" << endl;
-            cout << "Categorization: " << categorizationTime.count() << " seconds" << endl;
-            cout << "Saving categorized data: " << savingCategorizedTime.count() << " seconds" << endl;
-            cout << "------------------------" << endl;
-            }
-
-            return 0;
+        return 0;
         }
     }
 }
