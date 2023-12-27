@@ -242,7 +242,7 @@ void printStudentTableAvgMed(const vector<Student> &students)
 
 
 // Comparison function for sorting students by name and surname
-bool compareStudents(const Student &student1, const Student &student2) {
+bool compareStudentsSimple(const Student &student1, const Student &student2) {
     // Compare by name
     int nameComparison = student1.name.compare(student2.name);
     if (nameComparison != 0) {
@@ -252,6 +252,7 @@ bool compareStudents(const Student &student1, const Student &student2) {
     // If names are equal, compare by surname
     return student1.surname.compare(student2.surname) < 0;
 }
+
 
 void readStudentsFromFileVector(const string &filename, vector<Student> &students)
 {
@@ -431,6 +432,116 @@ Student generateRandomStudent(int studentNumber, int numMarks) {
     return student;
 }
 
+
+
+
+// UPDATED FUNCTIONS
+
+
+bool fileExists(const string& filename) {
+    std::__fs::filesystem::path dataFolderPath = "./datafiles";
+    std::__fs::filesystem::path filePath = dataFolderPath / filename;
+    ifstream file(filePath.c_str());
+    return file.good();
+}
+
+// Function to save student data to a file
+void generateStudentDataToFile(const string& filename, int numStudents, int numMarks) {
+    std::__fs::filesystem::path dataFolderPath = "./datafiles";
+    std::__fs::filesystem::path filePath = dataFolderPath / filename;
+    
+    ofstream file(filePath);
+
+    if (file.is_open()) {
+        // First line of the file
+        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde";
+        for (int i = 1; i <= numMarks; ++i) {
+            file << left << setw(9) << "ND" + to_string(i);
+        }
+        file << "Egz." << endl;
+
+        for (int i = 1; i <= numStudents; ++i) {
+            string name = generateRandomName(i);
+            string surname = generateRandomSurname(i);
+            int examMark = generateRandomMark();
+
+            file << left << setw(24) << name << setw(24) << surname;
+            for (int j = 0; j < numMarks; ++j) {
+                file << left << setw(9) << generateRandomMark();
+            }
+            file << examMark << endl;
+        }
+
+        file.close();
+    } else {
+        cout << "Error: Could not open file for writing." << endl;
+    }
+}
+
+// Comparison function for sorting students by name and surname
+void compareStudents(vector<Student> &students, int sortBy) {
+    if (sortBy == 0) { // Sort by name
+        return sort(students.begin(), students.end(), compareByName);
+    } else if (sortBy == 1) { // Sort by surname
+        return sort(students.begin(), students.end(), compareBySurname);
+    } else if (sortBy == 2) { // Sort by final mark average
+        return sort(students.begin(), students.end(), compareByFinalMarkAvg);
+    } else if (sortBy == 3) { // Sort by final mark median
+        return sort(students.begin(), students.end(), compareByFinalMarkMedian);
+    }
+}
+
+void compareStudentsList(list<Student>& students, int sortBy) {
+    if (sortBy == 0) { // Sort by name
+        students.sort(compareByName);
+    } else if (sortBy == 1) { // Sort by surname
+        students.sort(compareBySurname);
+    } else if (sortBy == 2) { // Sort by final mark average
+        students.sort(compareByFinalMarkAvg);
+    } else if (sortBy == 3) { // Sort by final mark median
+        students.sort(compareByFinalMarkMedian);
+    }
+}
+
+// Comparator for sorting by name
+bool compareByName(const Student &student1, const Student &student2) {
+    return student1.name < student2.name;
+}
+
+// Comparator for sorting by surname
+bool compareBySurname(const Student &student1, const Student &student2) {
+    return student1.surname < student2.surname;
+}
+
+// Comparator for sorting by final mark average
+bool compareByFinalMarkAvg(const Student &student1, const Student &student2) {
+    return student1.finalMarkAvg < student2.finalMarkAvg;
+}
+
+// Comparator for sorting by final mark median
+bool compareByFinalMarkMedian(const Student &student1, const Student &student2) {
+    return student1.finalMarkMed < student2.finalMarkMed;
+}
+
+void saveStudentDataToFile(const string& filename, const vector<Student>& students) {
+    // Construct the full path to the file in the "datafiles" folder
+    std::__fs::filesystem::path dataFolderPath = "./datafiles";
+    std::__fs::filesystem::path filePath = dataFolderPath / filename;
+
+    ofstream file(filePath);
+
+    if (file.is_open()) {
+        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde" << setw(24) << "Final Mark Avg" << setw(24) << "Final Mark Med" << endl;
+
+        for (const Student& student : students) {
+            file << left << setw(24) << student.name << setw(24) << student.surname << setw(24) << student.finalMarkAvg << setw(24) << student.finalMarkMed << endl;
+        }
+        file.close();
+    } else {
+        cout << "Error: Could not open file for writing." << endl;
+    }
+}
+
 // Function to save student data to a file
 void saveStudentDataToFileList(const string &filename, const list<Student> &students) {
     // Construct the full path to the file in the "datafiles" folder
@@ -441,53 +552,42 @@ void saveStudentDataToFileList(const string &filename, const list<Student> &stud
 
 
     if (file.is_open()) {
-        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde";
-        for (int i = 1; i <= 15; ++i) {
-            file << left << setw(9) << "ND" + to_string(i);
-        }
-       file << "Egz." << endl;
+        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde" << setw(24) << "Final Mark Avg" << setw(24) << "Final Mark Med" << endl;
 
         for (const Student& student : students) {
-            file << left << setw(24) << student.name << setw(24) << student.surname;
-            for (int mark : student.marks) {
-                file << left << setw(9) << mark;
-            }
-            file << student.examMark << endl;
+            file << left << setw(24) << student.name << setw(24) << student.surname << setw(24) << student.finalMarkAvg << setw(24) << student.finalMarkMed << endl;
         }
-
-        file.close();
-    } 
-    else {
-        cout << "Error: Could not open file for writing." << endl;
-    }
-}
-
-void saveStudentDataToFileVector(const string &filename, const vector<Student> &students) {
-    // Construct the full path to the file in the "datafiles" folder
-    std::__fs::filesystem::path dataFolderPath = "./datafiles";
-    std::__fs::filesystem::path filePath = dataFolderPath / filename;
-
-    ofstream file(filePath);
-
-
-    if (file.is_open()) {
-        file << left << setw(24) << "Vardas" << setw(24) << "Pavarde";
-        for (int i = 1; i <= 15; ++i) {
-            file << left << setw(9) << "ND" + to_string(i);
-        }
-        file << "Egz." << endl;
-
-        for (const Student& student : students) {
-            file << left << setw(24) << student.name << setw(24) << student.surname;
-            for (int mark : student.marks) {
-                file << left << setw(9) << mark;
-            }
-            file << student.examMark << endl;
-        }
-
         file.close();
     } else {
         cout << "Error: Could not open file for writing." << endl;
     }
 }
 
+// Function to print a single Student object
+void printStudent(const Student& student) {
+    std::cout << "Name: " << student.name << ", Surname: " << student.surname << std::endl;
+    // Print other attributes as needed
+    std::cout << "Marks: ";
+    for (int mark : student.marks) {
+        std::cout << mark << " ";
+    }
+    std::cout << ", Exam Mark: " << student.examMark << std::endl;
+    std::cout << std::endl;
+}
+
+int getUserSortOption() {
+    int sortOption;
+    cout << "Choose sorting option:" << std::endl;
+    cout << "0: Sort by name" << std::endl;
+    cout << "1: Sort by surname" << std::endl;
+    cout << "2: Sort by final mark average" << std::endl;
+    cout << "3: Sort by final mark median" << std::endl;
+    cout << "Enter your choice (0-3): ";
+    cin >> sortOption;
+    while (sortOption > 3 || sortOption < 0) {
+        printf("This choice is not defined. Please, try again.\n");
+        cin >> sortOption;
+    }
+
+    return sortOption;
+}

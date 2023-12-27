@@ -150,22 +150,22 @@ Data Categorization
 Data Categorization
 | Records | Strategy 1 | Strategy 2 |
 |--|--|--|
-| 1 000 | 0.001s | 0.001s |
-| 10 000 | 0.009s | 0.008s |
-| 100 000 | 0.098s  | 0.089s | 
-| 1 000 000 | 2.131s | 1.100s |
-| 10 000 000 | 14.420s | 13.799s |
+| 1 000 | 0.002s | 0.002s |
+| 10 000 | 0.0115s | 0.0103s |
+| 100 000 | 0.118s  | 0.115s | 
+| 1 000 000 | 1.514s | 1.595s |
+| 10 000 000 | 21.347s | 20.760s |
 
 #### v.1.0 (Vectors)
 
 Data Categorization
 | Records | Strategy 1 | Strategy 2 | Strategy 3 |
 |--|--|--|--|
-| 1 000 | 0.002s | 0.016s | 0.001s |
-| 10 000 | 0.016s | 1.021s | 0.003s |
-| 100 000 | 0.185s  | 101.472s | 0.039s |
-| 1 000 000 | 2.214s | - | 0.400s |
-| 10 000 000 | 25.663s | - | 4.483s |
+| 1 000 | 0.002s | 0.0182s | 0.0004s |
+| 10 000 | 0.0130s | 1.011s | 0.004s |
+| 100 000 | 0.126s  | 100.477s | 0.0397s |
+| 1 000 000 | 1.312s | - | 0.4109s |
+| 10 000 000 | 13.723s | - | 4.350s |
 
 Strategy 2 uses erase method, which is computationally expensive as it seems - O(n) complexity.
 Strategy 3 is the most efficient one for Vector container, Strategy 2 improved program, using List container.
