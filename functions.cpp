@@ -591,3 +591,5 @@ int getUserSortOption() {
 
     return sortOption;
 }
+
+// v.1.0

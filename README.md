@@ -168,7 +168,7 @@ Data Categorization
 | 10 000 000 | 13.723s | - | 4.350s |
 
 Strategy 2 uses erase method, which is computationally expensive as it seems - O(n) complexity.
-Strategy 3 is the most efficient one for Vector container, Strategy 2 improved program, using List container.
+Strategy 3 is the most efficient one for Vector container, Strategy 2 improved program, using List container. It was not possible to get results for large vector for strategy 2.
 
 
 
